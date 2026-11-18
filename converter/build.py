@@ -482,6 +482,261 @@ class ImageStore:
         return f'<img src="{src}" width="{it["w"]}" height="{it["h"]}" alt="{html.escape(alt)}" loading="lazy">'
 
 
+# ----------------------------------------------------------------------------- spliced pictures
+# The eBible cuts some pictures into pieces so they stay legible on a small screen. They are put back together here:
+#   - a wide picture printed as a left half and a right half            -> join_halves
+#   - a colour map printed as a small overview plus four enlarged quarters -> stitch_quarters
+SIDEWAYS_MAPS = ("Map 1:", "Map 14:")     # printed turned a quarter-turn anticlockwise; stored upright
+
+
+def _pil(it):
+    import io
+    from PIL import Image
+    return Image.open(io.BytesIO(it["data"])).convert("RGB")
+
+
+def _img_item(im, like):
+    import io
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=88, optimize=True)
+    return dict(like, data=buf.getvalue(), ext="jpeg", w=im.width, h=im.height)
+
+
+def are_halves(a, b):
+    """Two pictures that follow each other and are the same height are the two halves of one wide picture."""
+    return abs(a["h"] - b["h"]) <= 2 and a["h"] >= 400
+
+
+def join_halves(a, b):
+    from PIL import Image
+    A, Bm = _pil(a), _pil(b)
+    if Bm.height != A.height:
+        Bm = Bm.resize((round(Bm.width * A.height / Bm.height), A.height), Image.LANCZOS)
+    out = Image.new("RGB", (A.width + Bm.width, A.height))
+    out.paste(A, (0, 0))
+    out.paste(Bm, (A.width, 0))
+    return _img_item(out, a)
+
+
+def _ncc(img, tpl):
+    """Normalised cross-correlation of a grey template at every position where it fits inside a grey image."""
+    import numpy as np
+    H, W = img.shape
+    h, w = tpl.shape
+    t = tpl - tpl.mean()
+    num = np.fft.irfft2(np.fft.rfft2(img) * np.conj(np.fft.rfft2(t, (H, W))), (H, W))[:H - h + 1, :W - w + 1]
+
+    def box(a):
+        c = np.pad(a, ((1, 0), (1, 0))).cumsum(0).cumsum(1)
+        return c[h:, w:] - c[:-h, w:] - c[h:, :-w] + c[:-h, :-w]
+    var = np.maximum(box(img * img) - box(img) ** 2 / (h * w), 1e-6)
+    return num / np.sqrt(var * (t * t).sum())
+
+
+def _peak(c):
+    """Highest value of a score map and its position, refined to a fraction of a pixel."""
+    import numpy as np
+    y, x = np.unravel_index(np.argmax(c), c.shape)
+
+    def sub(lo, mid, hi):              # top of the parabola through three neighbouring scores
+        d = lo - 2 * mid + hi
+        return 0.0 if d >= 0 else max(-0.5, min(0.5, 0.5 * (lo - hi) / d))
+    dx = sub(c[y, x - 1], c[y, x], c[y, x + 1]) if 0 < x < c.shape[1] - 1 else 0.0
+    dy = sub(c[y - 1, x], c[y, x], c[y + 1, x]) if 0 < y < c.shape[0] - 1 else 0.0
+    return float(c[y, x]), x + dx, y + dy
+
+
+def _locate(over, quarter):
+    """Where an enlarged quarter sits inside the overview: (scale, x, y, score), x/y in overview pixels.
+
+    The score peaks very sharply in scale, so the search runs coarse-to-fine: a wide sweep on a shrunken
+    overview first, then narrower sweeps at half and full size.
+    """
+    import numpy as np
+    from PIL import Image
+    grey = quarter.convert("L")
+    best = None
+    for div, span, step in ((4, None, 0.01), (2, 0.012, 0.003), (1, 0.004, 0.001)):
+        ov = over if div == 1 else over.resize((over.width // div, over.height // div), Image.LANCZOS)
+        oa = np.asarray(ov, dtype=np.float64)
+        kx, ky = over.width / ov.width, over.height / ov.height
+        lo, hi = (0.28, 0.72) if span is None else (best[0] - span, best[0] + span)
+        cands = []
+        for k in range(int(round((hi - lo) / step)) + 1):
+            s = lo + k * step
+            tw, th = round(grey.width * s / kx), round(grey.height * s / ky)
+            if tw < 16 or th < 16 or tw > ov.width or th > ov.height:
+                continue
+            score, x, y = _peak(_ncc(oa, np.asarray(grey.resize((tw, th), Image.LANCZOS), dtype=np.float64)))
+            cands.append((score, th * ky / grey.height, x * kx, y * ky))
+        if not cands:
+            return 0, 0, 0, -1
+        score, s, x, y = max(cands)
+        best = (s, x, y, score)
+    return best
+
+
+def _erase_rules(im):
+    """The overview with the thin dark lines that divide it into quarters painted out.
+
+    The overview only shows through where two quarters leave a hairline gap, which is exactly where those
+    dividing lines run, so without this each gap would show as a black line.
+    """
+    import numpy as np
+    from PIL import Image
+    a = np.asarray(im, dtype=np.float64).copy()
+    for axis in (0, 1):                                        # 0: vertical lines (columns), 1: horizontal lines
+        v = a if axis == 0 else a.transpose(1, 0, 2)
+        g = v.mean(2)
+        n = g.shape[1]
+        dark = [False] * n
+        for x in range(int(n * 0.2), int(n * 0.8)):
+            dark[x] = float(((np.minimum(g[:, x - 2], g[:, x + 2]) - g[:, x]) > 18).mean()) > 0.45
+        for x in range(n):
+            if dark[x]:
+                lo = next(k for k in range(x - 1, -1, -1) if not dark[k])
+                hi = next(k for k in range(x + 1, n) if not dark[k])
+                v[:, x] = (v[:, lo] * (hi - x) + v[:, hi] * (x - lo)) / (hi - lo)
+    return Image.fromarray(np.clip(a + 0.5, 0, 255).astype(np.uint8))
+
+
+def stitch_quarters(overview, quarters, sideways=False):
+    """One large picture from a map's overview and its four enlarged quarters.
+
+    Each quarter is found inside the overview, which gives its place and scale (the quarters are not all
+    enlarged by the same amount). Neighbouring quarters are then nudged until their shared edges agree,
+    laid over an enlarged copy of the overview (which only shows through at the page margin) and
+    cross-faded where they overlap. Returns None if a quarter cannot be placed with confidence.
+    """
+    import numpy as np
+    from PIL import Image
+    O = _pil(overview)
+    Q = [_pil(q) for q in quarters]
+    found = [_locate(O.convert("L"), q) for q in Q]
+    if min(f[3] for f in found) < 0.5:
+        return None
+    K = 1 / min(f[0] for f in found)                           # overview pixel -> output pixel; keeps the sharpest quarter at full size
+    W, H = round(O.width * K), round(O.height * K)
+    zoom = [f[0] * K for f in found]                           # each quarter's own resize factor (about 1)
+    pos = [[f[1] * K, f[2] * K] for f in found]                # its top-left corner on the output, in pixels
+
+    def rule_trim(q):
+        """How many pixels to drop from each side (left, top, right, bottom) to lose a dividing line printed on the quarter's edge."""
+        g = np.asarray(q.convert("L"), dtype=np.float64)
+        out = []
+        for side in (g, g.T, g[:, ::-1], g.T[:, ::-1]):        # each with the edge in question as column 0
+            t = 0
+            for k in range(4):
+                if float(((side[:, k + 3] - side[:, k]) > 18).mean()) > 0.45:
+                    t = k + 1
+            out.append(t)
+        return out
+    trims = {id(q): rule_trim(q) for q in Q}
+
+    def render(q, f, p, mode):
+        """The quarter drawn on the full canvas at a fractional position, plus the box it covers."""
+        src = q if mode == "RGB" else q.convert(mode)
+        im = src.transform((W, H), Image.AFFINE, (1 / f, 0, -p[0] / f, 0, 1 / f, -p[1] / f), Image.BICUBIC)
+        l, t, r, b = trims[id(q)]
+        box = (max(0, int(np.ceil(p[0] + l * f)) + 1), max(0, int(np.ceil(p[1] + t * f)) + 1),
+               min(W, int(p[0] + (q.width - r) * f) - 1), min(H, int(p[1] + (q.height - b) * f) - 1))
+        return np.asarray(im, dtype=np.float64), box
+
+    for _ in range(4):                                         # nudge neighbours into agreement
+        grey = [render(q, f, p, "L") for q, f, p in zip(Q, zoom, pos)]
+        rows, rhs_x, rhs_y, wts = [], [], [], []
+        m = 6
+        for i in range(4):
+            for j in range(i + 1, 4):
+                a, b = grey[i][1], grey[j][1]
+                x0, y0, x1, y1 = max(a[0], b[0]), max(a[1], b[1]), min(a[2], b[2]), min(a[3], b[3])
+                if x1 - x0 < 4 * m or y1 - y0 < 4 * m:
+                    continue
+                tpl = grey[j][0][y0 + m:y1 - m, x0 + m:x1 - m]
+                if tpl.std() < 4:                              # featureless strip: nothing to line up on
+                    continue
+                score, dx, dy = _peak(_ncc(grey[i][0][y0:y1, x0:x1], tpl))
+                if score < 0.6:
+                    continue
+                row = [0.0] * 4
+                row[j], row[i] = 1.0, -1.0
+                rows.append(row); rhs_x.append(dx - m); rhs_y.append(dy - m)
+                wts.append(((x1 - x0) * (y1 - y0)) ** 0.5 * score)
+        if not rows:
+            break
+        A = np.array(rows) * np.array(wts)[:, None]
+        A = np.vstack([A, np.eye(4) * 0.05 * max(wts)])         # keeps the whole set from drifting
+        tx = np.linalg.lstsq(A, np.concatenate([np.array(rhs_x) * wts, np.zeros(4)]), rcond=None)[0]
+        ty = np.linalg.lstsq(A, np.concatenate([np.array(rhs_y) * wts, np.zeros(4)]), rcond=None)[0]
+        for k in range(4):
+            pos[k][0] += tx[k]
+            pos[k][1] += ty[k]
+        if max(abs(tx).max(), abs(ty).max()) < 0.1:
+            break
+
+    out = np.asarray(_erase_rules(O).resize((W, H), Image.LANCZOS), dtype=np.float64)
+    acc, wsum = np.zeros_like(out), np.zeros((H, W))
+    feather = 20
+    for q, f, p in zip(Q, zoom, pos):
+        a, (x0, y0, x1, y1) = render(q, f, p, "RGB")
+        ry = np.minimum(np.arange(y1 - y0) + 1, (y1 - y0) - np.arange(y1 - y0))
+        rx = np.minimum(np.arange(x1 - x0) + 1, (x1 - x0) - np.arange(x1 - x0))
+        wgt = np.minimum(np.minimum.outer(ry, rx), feather) / feather
+        acc[y0:y1, x0:x1] += a[y0:y1, x0:x1] * wgt[..., None]
+        wsum[y0:y1, x0:x1] += wgt
+    covered = wsum > 0
+    out[covered] = acc[covered] / wsum[covered][:, None]
+    im = Image.fromarray(np.clip(out + 0.5, 0, 255).astype(np.uint8))
+    if sideways:
+        im = im.transpose(Image.ROTATE_270)                   # a quarter-turn clockwise
+    return _img_item(im, overview)
+
+
+_STITCHED = {}
+
+
+def splice_map_quarters(flow):
+    """In the colour-map section every map is five pictures in a row: an overview, then its four quarters.
+
+    The overview is replaced by the stitched map; the quarters stay in the stream marked ``_part`` so that
+    they keep their anchors (other pages link to them) but are not drawn.
+    """
+    out, i, heading = list(flow), 0, ""
+    while i < len(out):
+        it = out[i]
+        if is_line(it):
+            if re.match(r"Map \d+:", it.text.strip()):
+                heading = it.text.strip()
+            i += 1
+            continue
+        j = i
+        while j < len(out) and isinstance(out[j], dict) and not out[j].get("ornament"):
+            j += 1
+        if j - i == 5:
+            key = hashlib.sha1(b"".join(x["data"] for x in out[i:j])).hexdigest()
+            if key not in _STITCHED:
+                _STITCHED[key] = stitch_quarters(out[i], out[i + 1:j], heading.startswith(SIDEWAYS_MAPS))
+            if _STITCHED[key]:
+                out[i] = dict(out[i], **{k: _STITCHED[key][k] for k in ("data", "ext", "w", "h")})
+                for k in range(i + 1, j):
+                    out[k] = dict(out[k], _part=True)
+        i = max(j, i + 1)
+    return out
+
+
+def join_split_pictures(items):
+    """Within one figure, two pictures in a row of the same height are one wide picture cut in half."""
+    out = []
+    for it in items:
+        prev = out[-1] if out else None
+        if (isinstance(it, dict) and isinstance(prev, dict) and not it.get("ornament") and not prev.get("ornament")
+                and not prev.get("_joined") and are_halves(prev, it)):
+            out[-1] = dict(join_halves(prev, it), _joined=True)
+        else:
+            out.append(it)
+    return out
+
+
 # ----------------------------------------------------------------------------- figures (charts / maps)
 TRAILER = re.compile(r"Go to (Charts|Maps|Illustrations) Index")
 
@@ -525,6 +780,7 @@ def render_figure(fig, linker, images, fid):
         k = TRAILER.search(trailer[0].text).group(1).lower()
         kind = {"charts": "chart", "maps": "map", "illustrations": "illustration"}[k]
     body = [it for it in items if not (is_line(it) and (TRAILER.search(it.text) or it.text.strip().startswith("Go back to")))]
+    body = join_split_pictures(body)
     # title = first large bold line
     for it in body:
         if is_line(it) and it.size >= 14:
@@ -1080,6 +1336,8 @@ def convert_section(doc, sec, linker, pending):
     grid, grid_lines = title == "Table of Weights and Measures", []   # this section's small print is a grid of cells
     searchable = not any(w in title for w in NO_SEARCH)
     flow, figs = split_figures(items)
+    if title == "Zondervan’s Full-Color Maps":
+        flow = splice_map_quarters(flow)
     fig_at = {}
     for f in figs:
         fig_at.setdefault(f["pos"], []).append(f)
@@ -1166,7 +1424,10 @@ def convert_section(doc, sec, linker, pending):
             flush()
             aid = new_id()
             linker.add(it["page"], it["bbox"][1], it["bbox"][0], aid)
-            parts.append(f'<div class="fig-img" id="{aid}">{images.tag(it, state["h3"] or state["h2"] or title)}</div>')
+            if it.get("_part"):
+                parts.append(f'<span id="{aid}"></span>')
+            else:
+                parts.append(f'<div class="fig-img" id="{aid}">{images.tag(it, state["h3"] or state["h2"] or title)}</div>')
     flush()
     out, run = [], []
     for h in parts + [""]:

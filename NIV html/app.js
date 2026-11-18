@@ -1222,6 +1222,98 @@
     window.addEventListener('pagehide', () => { if (editing) saveNotes(); });
   }
 
+  // ------------------------------------------------------------------ picture viewer (click a picture: full screen, wheel / pinch zoom, drag to pan)
+  const Z = { s: 1, x: 0, y: 0, fit: 1, pts: new Map(), moved: false, pinch: 0 };
+  const zoomBox = () => $('#zoom'), zoomImg = () => $('#zoom-img');
+  function zoomApply() {
+    const d = zoomBox(), im = zoomImg(), w = im.naturalWidth * Z.s, h = im.naturalHeight * Z.s;
+    // a picture smaller than the screen stays centred; a larger one cannot be dragged off it
+    Z.x = w <= d.clientWidth ? (d.clientWidth - w) / 2 : Math.min(0, Math.max(d.clientWidth - w, Z.x));
+    Z.y = h <= d.clientHeight ? (d.clientHeight - h) / 2 : Math.min(0, Math.max(d.clientHeight - h, Z.y));
+    im.style.transform = `translate(${Z.x}px, ${Z.y}px) scale(${Z.s})`;
+  }
+  function zoomFit() {
+    const d = zoomBox(), im = zoomImg();
+    if (!im.naturalWidth) return;
+    Z.fit = Math.min(d.clientWidth / im.naturalWidth, d.clientHeight / im.naturalHeight);
+    Z.s = Z.fit; Z.x = Z.y = 0;
+    zoomApply();
+  }
+  function zoomAt(cx, cy, factor) {
+    const ns = Math.max(Z.fit, Math.min(Math.max(Z.fit * 10, 4), Z.s * factor));
+    Z.x = cx - (cx - Z.x) * ns / Z.s;
+    Z.y = cy - (cy - Z.y) * ns / Z.s;
+    Z.s = ns;
+    zoomApply();
+  }
+  function openZoom(src, alt) {
+    const d = zoomBox(), im = zoomImg();
+    closePops();
+    im.style.visibility = 'hidden';
+    im.onload = () => { zoomFit(); im.style.visibility = ''; };
+    im.alt = alt || '';
+    im.src = src;
+    if (!d.open) d.showModal();
+    if (im.complete && im.naturalWidth) im.onload();
+  }
+  function initZoom() {
+    const d = zoomBox();
+    document.addEventListener('click', e => {
+      const im = e.target.closest && e.target.closest('.fig-img img');
+      if (im && !im.closest('a')) openZoom(im.currentSrc || im.src, im.alt);
+    });
+    d.addEventListener('wheel', e => {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0018)));
+    }, { passive: false });
+    d.addEventListener('pointerdown', e => {
+      if (e.target.closest('.zoom-bar')) return;
+      d.setPointerCapture(e.pointerId);
+      Z.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (Z.pts.size === 1) Z.moved = false;
+      Z.pinch = 0;
+      d.classList.add('grab');
+    });
+    d.addEventListener('pointermove', e => {
+      const p = Z.pts.get(e.pointerId); if (!p) return;
+      const dx = e.clientX - p.x, dy = e.clientY - p.y;
+      if (Z.pts.size === 1) {
+        if (Math.abs(dx) + Math.abs(dy) > 4) Z.moved = true;
+        if (Z.moved) { Z.x += dx; Z.y += dy; p.x = e.clientX; p.y = e.clientY; zoomApply(); }
+        return;
+      }
+      p.x = e.clientX; p.y = e.clientY;
+      const [a, b] = [...Z.pts.values()];
+      const dist = Math.hypot(a.x - b.x, a.y - b.y), mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      Z.moved = true;
+      if (Z.pinch) { Z.x += mx - Z.mx; Z.y += my - Z.my; zoomAt(mx, my, dist / Z.pinch); }
+      Z.pinch = dist; Z.mx = mx; Z.my = my;
+    });
+    const up = e => { Z.pts.delete(e.pointerId); Z.pinch = 0; if (!Z.pts.size) d.classList.remove('grab'); };
+    d.addEventListener('pointerup', up);
+    d.addEventListener('pointercancel', up);
+    d.addEventListener('dblclick', e => {
+      if (e.target.closest('.zoom-bar')) return;
+      if (Z.s > Z.fit * 1.05) zoomFit(); else zoomAt(e.clientX, e.clientY, 3);
+    });
+    d.addEventListener('click', e => {
+      const b = e.target.closest('[data-zoom]');
+      const cx = d.clientWidth / 2, cy = d.clientHeight / 2;
+      if (b) {
+        if (b.dataset.zoom === 'in') zoomAt(cx, cy, 1.5);
+        else if (b.dataset.zoom === 'out') zoomAt(cx, cy, 1 / 1.5);
+        else if (b.dataset.zoom === 'fit') zoomFit();
+        else d.close();
+        return;
+      }
+      const im = zoomImg();
+      const onPicture = e.clientX >= Z.x && e.clientX <= Z.x + im.naturalWidth * Z.s && e.clientY >= Z.y && e.clientY <= Z.y + im.naturalHeight * Z.s;
+      if (!onPicture && !Z.moved) d.close();          // a plain click on the dark surround closes
+    });
+    window.addEventListener('resize', () => { if (d.open) zoomFit(); });
+    window.addEventListener('hashchange', () => { if (d.open) d.close(); });   // Back leaves the viewer
+  }
+
   // ------------------------------------------------------------------ chrome: tabs, toggles, theme, font
   function switchTab(t) {
     $$('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
@@ -1242,6 +1334,7 @@
     S.m.books.forEach(b => { B[b.id] = b; ORDER.push(b.id); });
     loadNotes();
     initNotes();
+    initZoom();
     buildNav();
     // book filters
     const opts = S.m.books.map((b, i) => `<option value="${i}">${esc(b.name)}</option>`).join('');
