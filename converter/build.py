@@ -687,6 +687,47 @@ def render_table(lines, linker):
     return "".join(out)
 
 
+def render_grid(lines, linker):
+    """A page laid out as a grid of separate cells (Table of Weights and Measures): one PDF line per cell.
+
+    The left-most column holds group labels (Weights, Length, ...), which become full-width sub-headings;
+    the stacked small-caps lines at the top become one header row. Cells holding a fraction sit a hair
+    higher than their neighbours, so rows are matched with a tolerance rather than an exact y.
+    """
+    cols = []
+    for x in sorted({round(l.x0) for l in lines}):
+        if not cols or x - cols[-1] > 12:
+            cols.append(x)
+
+    def col_of(x):
+        cand = [i for i, c in enumerate(cols) if c <= x + 4]
+        return cand[-1] if cand else 0
+
+    rows = []
+    for l in sorted(lines, key=lambda l: (l.page, l.y0, l.x0)):
+        if not rows or rows[-1]["page"] != l.page or l.y0 - rows[-1]["y"] > 4:
+            rows.append({"page": l.page, "y": l.y0, "cells": {}})
+        rows[-1]["cells"].setdefault(col_of(l.x0), []).append(l)
+    plain = lambda ls: " ".join("".join(r["t"] for l in ls for r in [*l.runs, {"t": " "}]).split())
+    bold = lambda row: all(r["b"] for ls in row["cells"].values() for l in ls for r in l.runs if r["t"].strip())
+    head = []
+    while rows and 0 not in rows[0]["cells"] and bold(rows[0]):
+        head.append(rows.pop(0))
+    data_cols = list(range(1, len(cols)))
+    out = ['<table>']
+    if head:
+        out.append("<tr>" + "".join(
+            "<th>" + esc(smart_title(plain([l for h in head for l in h["cells"].get(ci, [])]))) + "</th>" for ci in data_cols) + "</tr>")
+    for row in rows:
+        if 0 in row["cells"]:
+            out.append(f'<tr><th colspan="{len(data_cols)}">' + " ".join(render_runs(l.runs, linker) for l in row["cells"][0]) + "</th></tr>")
+        if any(ci in row["cells"] for ci in data_cols):
+            out.append("<tr>" + "".join(
+                "<td>" + " ".join(render_runs(l.runs, linker) for l in row["cells"].get(ci, [])) + "</td>" for ci in data_cols) + "</tr>")
+    out.append("</table>")
+    return "".join(out)
+
+
 SMALL = {"a", "an", "and", "as", "at", "by", "for", "from", "in", "of", "on", "or", "the", "to", "with"}
 
 
@@ -1036,6 +1077,7 @@ def convert_section(doc, sec, linker, pending):
     linker.cover((sec["start"], 0), (sec["end"] + 1, 0))
     images = ImageStore(f"s{num:03d}")
     keep = title == "Index to Maps"
+    grid, grid_lines = title == "Table of Weights and Measures", []   # this section's small print is a grid of cells
     searchable = not any(w in title for w in NO_SEARCH)
     flow, figs = split_figures(items)
     fig_at = {}
@@ -1105,9 +1147,20 @@ def convert_section(doc, sec, linker, pending):
             nav.append([fid, fig["title"], 4, fig["kind"]])
             plain = re.sub(r"<[^>]+>", " ", fig["html"])
             search.append([fid, fig["kind"], fig["title"], re.sub(r"\s+", " ", plain).strip()])
+        if grid and grid_lines and (it is None or not is_line(it) or it.size >= 11):
+            aid = new_id()
+            linker.add(grid_lines[0].page, grid_lines[0].y0, grid_lines[0].x0, aid)
+            table = render_grid(grid_lines, linker)
+            parts.append(f'<div class="tbl" id="{aid}">{table}</div>')
+            if searchable:
+                search.append([aid, "article", title, " ".join(re.sub(r"<[^>]+>", " ", table).split())])
+            grid_lines.clear()
         if it is None:
             break
-        if is_line(it):
+        if grid and is_line(it) and it.size < 11:
+            flush()
+            grid_lines.append(it)
+        elif is_line(it):
             flow_lines.append(it)
         else:
             flush()
