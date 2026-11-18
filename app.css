@@ -382,3 +382,20 @@ dialog#modal::backdrop { background: rgba(20, 15, 5, .38); }
 .mn-tree a { color: var(--ink); }
 .mn-tree .cnt { margin-left: auto; font-size: 11.5px; color: var(--ink-3); }
 .note-card.mine .s { -webkit-line-clamp: 3; }
+
+/* ---------- picture viewer ---------- */
+.fig-img img { cursor: zoom-in; }
+dialog#zoom {
+  position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: rgba(16, 13, 9, .95); overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
+}
+dialog#zoom:not([open]) { display: none; }
+dialog#zoom.grab { cursor: grabbing; }
+dialog#zoom::backdrop { background: rgba(16, 13, 9, .95); }
+#zoom-img { position: absolute; left: 0; top: 0; max-width: none; transform-origin: 0 0; pointer-events: none; -webkit-user-drag: none; }
+.zoom-bar {
+  position: absolute; right: 12px; top: calc(12px + env(safe-area-inset-top, 0px)); display: flex; gap: 6px; padding: 6px;
+  background: rgba(30, 26, 20, .82); border: 1px solid rgba(255, 255, 255, .16); border-radius: 12px; cursor: default; font-family: var(--ui);
+}
+.zoom-bar button { min-width: 40px; height: 38px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: #f2ede3; font-size: 16px; font-weight: 600; cursor: pointer; }
+.zoom-bar button:hover { background: rgba(255, 255, 255, .14); }
