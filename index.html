@@ -49,6 +49,7 @@
   <div class="tabs">
     <button data-tab="nav" class="on">Contents</button>
     <button data-tab="conc">Concordance</button>
+    <button data-tab="notes">My notes</button>
   </div>
   <div class="tab-body" id="tab-nav"></div>
   <div class="tab-body" id="tab-conc" hidden>
@@ -59,6 +60,7 @@
     <div class="conc-count" id="conc-count"></div>
     <ul class="conc-list" id="conc-list"></ul>
   </div>
+  <div class="tab-body" id="tab-notes" hidden></div>
 </aside>
 
 <main id="main" tabindex="-1"><div id="view"></div></main>
@@ -81,6 +83,7 @@
 </dialog>
 
 <div id="pops"></div>
+<div class="sel-bar" id="sel-bar" hidden></div>
 <div class="scrim" id="scrim"></div>
 
 <script src="app.js"></script>
