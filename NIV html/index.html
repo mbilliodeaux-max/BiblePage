@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIV Study Bible</title>
+<link rel="stylesheet" href="app.css">
+<script>
+  try { var t = localStorage.getItem('niv-theme'); if (t) document.documentElement.dataset.theme = t;
+        var f = localStorage.getItem('niv-font'); if (f) document.documentElement.style.setProperty('--read-size', f + 'px'); } catch (e) {}
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="top-l">
+    <button class="icon-btn" id="toggle-left" title="Contents" aria-label="Toggle contents">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+    <a class="brand" href="#">NIV Study Bible</a>
+  </div>
+  <div class="search" id="search">
+    <svg class="search-ico" viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search scripture, study notes, charts, concordance — or type a reference like Gen 12:1">
+    <div class="search-panel" id="search-panel" hidden>
+      <div class="search-filters">
+        <div class="chips" id="search-kinds">
+          <button data-k="all" class="on">All</button><button data-k="scripture">Scripture</button><button data-k="notes">Study notes</button><button data-k="figures">Charts &amp; maps</button><button data-k="articles">Articles</button><button data-k="conc">Concordance</button>
+        </div>
+        <select id="search-scope" aria-label="Limit to books">
+          <option value="all">All books</option><option value="ot">Old Testament</option><option value="nt">New Testament</option>
+        </select>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+  <div class="top-r">
+    <button class="icon-btn" id="font-down" title="Smaller text" aria-label="Smaller text">A−</button>
+    <button class="icon-btn" id="font-up" title="Larger text" aria-label="Larger text">A+</button>
+    <button class="icon-btn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"/></svg>
+    </button>
+    <button class="icon-btn" id="toggle-right" title="Study notes" aria-label="Toggle study notes">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 4h10l4 4v12H5z M14 4v5h5 M8 13h8 M8 17h6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<aside class="left" id="left">
+  <div class="tabs">
+    <button data-tab="nav" class="on">Contents</button>
+    <button data-tab="conc">Concordance</button>
+  </div>
+  <div class="tab-body" id="tab-nav"></div>
+  <div class="tab-body" id="tab-conc" hidden>
+    <div class="conc-tools">
+      <input id="conc-q" type="search" placeholder="Filter words…" autocomplete="off" spellcheck="false">
+      <select id="conc-book" aria-label="Filter by book"><option value="">All books</option></select>
+    </div>
+    <div class="conc-count" id="conc-count"></div>
+    <ul class="conc-list" id="conc-list"></ul>
+  </div>
+</aside>
+
+<main id="main" tabindex="-1"><div id="view"></div></main>
+
+<aside class="right" id="right">
+  <div class="right-head">
+    <h2>Study notes</h2>
+    <div class="right-range" id="right-range"></div>
+  </div>
+  <div class="right-body" id="right-body"></div>
+</aside>
+
+<dialog id="modal">
+  <div class="modal-head">
+    <div class="modal-title" id="modal-title"></div>
+    <button class="icon-btn" id="modal-close" aria-label="Close">✕</button>
+  </div>
+  <div class="modal-body" id="modal-body"></div>
+  <div class="modal-foot" id="modal-foot"></div>
+</dialog>
+
+<div id="pops"></div>
+<div class="scrim" id="scrim"></div>
+
+<script src="app.js"></script>
+<script src="data/manifest.js"></script>
+</body>
+</html>
