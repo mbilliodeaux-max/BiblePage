@@ -143,6 +143,7 @@
     if (!h) return showHome(restore);
     if (h === 'view:figures') return showFigures(restore);
     if (h === 'view:conc') return showConc(null, restore);
+    if (h === 'view:notes' || h.startsWith('view:notes:')) return showNotes(h.slice(11), restore);
     if (h.startsWith('k-')) return showConc(h, restore);
     const sp = parseSid(h);
     if (sp) {
@@ -191,7 +192,7 @@
       <p>Read the text in the middle; study notes for whatever is on screen appear on the right. Hover any reference to preview it, and use the search bar for scripture, study notes, charts and the concordance.</p>
       <h2 class="sec">Old Testament</h2><div class="book-grid">${grid(S.m.books.slice(0, 39))}</div>
       <h2 class="sec">New Testament</h2><div class="book-grid">${grid(S.m.books.slice(39))}</div>
-      <h2 class="sec">Reference</h2><div class="book-grid">${refSec.map(s => `<a href="#s-${pad3(s.num)}-1">${esc(s.title)}<span>Section</span></a>`).join('')}<a href="#view:figures">Charts, maps &amp; pictures<span>${S.m.figures.length} items</span></a><a href="#view:conc">Concordance<span>${S.m.concordance.length.toLocaleString()} words</span></a></div>
+      <h2 class="sec">Reference</h2><div class="book-grid">${refSec.map(s => `<a href="#s-${pad3(s.num)}-1">${esc(s.title)}<span>Section</span></a>`).join('')}<a href="#view:figures">Charts, maps &amp; pictures<span>${S.m.figures.length} items</span></a><a href="#view:conc">Concordance<span>${S.m.concordance.length.toLocaleString()} words</span></a><a href="#view:notes">My notes<span>${N.list.length} saved</span></a></div>
       <p style="font-size:.8em">Built ${esc(S.m.built)}.</p>
     </div></div>`);
     if (restore != null) main().scrollTop = restore;
@@ -213,6 +214,7 @@
       <section class="intro" id="intro-${bid}"><h2>Introduction</h2>${bk.intro}</section>
       ${chapters}</div>`);
     indexVerses();
+    paintNotes();
     lastRangeKey = null;
     openNavBook(bid);
   }
@@ -315,7 +317,10 @@
     const spec = anns.filter(x => !over.includes(x));
     const ids = new Set(anns.map(x => x.id));
     const figs = bk.figures.filter(f => f.ann && ids.has(f.ann));
+    const mine = sortedNotes(N.list.filter(n => n.bid === S.bid && n.s && nnum(n.s) <= b && nnum(n.e) >= a));
     let html = '';
+    if (mine.length) html += `<div class="rs-group">My notes</div>` + mine.map(n => `<button class="note-card mine" data-note-edit="${n.id}" data-s="${nnum(n.s)}" data-e="${nnum(n.e)}">
+      <span class="dot uh-${n.color}"></span><span class="r">${esc(shortRef(n))}</span><span class="s">${esc(n.text.trim() || n.quote)}</span></button>`).join('');
     if (over.length) html += `<div class="rs-group">Section overviews</div>` + over.map(x => noteCard(x, true)).join('');
     if (spec.length) html += `<div class="rs-group">Verse notes</div>` + spec.map(x => noteCard(x, false)).join('');
     if (figs.length) html += `<div class="rs-group">Charts, maps &amp; pictures</div>` + figs.map(figCard).join('');
@@ -340,7 +345,7 @@
 
   // ------------------------------------------------------------------ modal (annotations, figures, notes, passages)
   const modal = () => $('#modal');
-  function closeModal() { const m = modal(); if (m.open) m.close(); }
+  function closeModal() { const m = modal(); if (m.open) m.close(); finishEdit(); }
   function showModal(title, body, foot) {
     const m = modal();
     $('#modal-title').innerHTML = title;
@@ -610,6 +615,7 @@
     setView('conc', `<div class="reader"><h1 class="book-title">Concordance</h1>
       <div class="letters">${letters.map(l => `<a href="#${(S.m.concordance.find(x => x[2] === l) || [])[0]}" class="${l === letter ? 'on' : ''}">${l.toUpperCase()}</a>`).join('')}</div>${body}</div>`);
     applyConcBookFilter();
+    markConcMentions();
     switchTab('conc');
     $$('#conc-list a.active').forEach(a => a.classList.remove('active'));
     if (id) {
@@ -797,11 +803,431 @@
   }
   function closeSearch() { $('#search-panel').hidden = true; }
 
+  // ------------------------------------------------------------------ my notes (highlights, notes, #tags, @mentions)
+  // Kept in this browser's localStorage; Export / Import moves them between devices.
+  const COLORS = ['yellow', 'green', 'blue', 'pink', 'purple', 'orange'];
+  const TAG_RE = /(^|[^\w#@&])#([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*)/g;
+  const MEN_RE = /(^|[^\w#@&.])@([A-Za-z][A-Za-z0-9_-]*)/g;
+  const N = { list: [], byId: new Map(), warned: false };
+  const nnum = p => p[0] * 1000 + p[1];
+  const mkey = s => s.toUpperCase().replace(/[_-]+/g, ' ').trim();
+  const newId = () => 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+  function reindexNotes() { N.byId = new Map(N.list.map(n => [n.id, n])); }
+  function loadNotes() {
+    try {
+      const d = JSON.parse(localStorage.getItem('niv-notes') || 'null');
+      if (d && Array.isArray(d.notes)) N.list = d.notes.map(cleanNote).filter(Boolean);
+    } catch (e) { /* no saved notes */ }
+    reindexNotes();
+  }
+  function saveNotes() {
+    try { localStorage.setItem('niv-notes', JSON.stringify({ v: 1, notes: N.list })); }
+    catch (e) {
+      if (!N.warned) { N.warned = true; alert('Your notes could not be saved in this browser (storage is blocked or full). Use Export on the My notes page to keep a copy.'); }
+    }
+  }
+  function parseTokens(n) {
+    n.tags = [...new Set([...n.text.matchAll(TAG_RE)].map(m => m[2]))];
+    n.mentions = [...new Set([...n.text.matchAll(MEN_RE)].map(m => m[2]))];
+  }
+  // accepts a note from storage or an import file; returns a safe copy or null
+  function cleanNote(x) {
+    if (!x || typeof x.id !== 'string') return null;
+    const pt = p => Array.isArray(p) && p.length === 3 && p.every(Number.isFinite) ? p.map(Number) : null;
+    const s = pt(x.s), e = pt(x.e), anchored = !!(s && e && B[x.bid]);
+    const n = {
+      id: x.id, bid: anchored ? x.bid : null, s: anchored ? s : null, e: anchored ? e : null,
+      quote: anchored ? String(x.quote || '') : '', color: COLORS.includes(x.color) ? x.color : 'yellow',
+      text: String(x.text || ''), created: +x.created || Date.now(), updated: +x.updated || Date.now(),
+    };
+    parseTokens(n);
+    return n;
+  }
+
+  let concIds = null;
+  function concId(word) {
+    if (!concIds) concIds = new Map(S.m.concordance.map(x => [mkey(x[1]), x[0]]));
+    return concIds.get(mkey(word)) || null;
+  }
+  const mentionOf = word => word.toLowerCase().replace(/(^|[\s-])([a-z])/g, (m, p, c) => p + c.toUpperCase()).replace(/\s+/g, '_');
+
+  function shortRef(n) {
+    const [c, v] = n.s, [c2, v2] = n.e;
+    return `${c}:${v}` + (c2 === c ? (v2 !== v ? `–${v2}` : '') : `–${c2}:${v2}`);
+  }
+  const noteRef = n => n.bid ? `${B[n.bid].abbr} ${shortRef(n)}` : '';
+  function noteHtml(text) {
+    return esc(text)
+      .replace(TAG_RE, (m, p, t) => `${p}<a class="tag" href="#view:notes:${encodeURIComponent('#' + t)}">#${t}</a>`)
+      .replace(MEN_RE, (m, p, w) => {
+        const k = concId(w);
+        return `${p}<a class="men${k ? '' : ' free'}" href="#${k || 'view:notes:' + encodeURIComponent('@' + w)}" title="${k ? 'Open in the concordance' : 'Not a concordance word — shows notes that mention it'}">@${w}</a>`;
+      })
+      .replace(/\n/g, '<br>');
+  }
+  function sortedNotes(list) {
+    const bi = n => n.bid ? ORDER.indexOf(n.bid) : -1;
+    return list.slice().sort((a, b) => bi(a) - bi(b) || (a.s && b.s ? nnum(a.s) - nnum(b.s) || a.s[2] - b.s[2] : 0) || a.created - b.created);
+  }
+  function matchNote(n, terms) {
+    return terms.every(t => {
+      if (t[0] === '#' && t.length > 1) { const f = t.slice(1).toLowerCase(); return n.tags.some(x => { x = x.toLowerCase(); return x === f || x.startsWith(f + '.'); }); }
+      if (t[0] === '@' && t.length > 1) { const f = mkey(t.slice(1)); return n.mentions.some(x => mkey(x) === f); }
+      return (n.text + ' ' + n.quote + ' ' + noteRef(n)).toLowerCase().includes(t.toLowerCase());
+    });
+  }
+
+  // ---- highlights in the reading text: positions are character offsets inside a verse (verse numbers and footnote letters don't count)
+  let vmFor = null, vm = null;
+  function verseMap() {
+    if (vmFor !== vSpans) {
+      vm = new Map(); vmFor = vSpans;
+      for (const [el] of vSpans) { const k = el.dataset.v; if (!vm.has(k)) vm.set(k, []); vm.get(k).push(el); }
+    }
+    return vm;
+  }
+  function verseNodes(key) {
+    const out = [];
+    for (const el of verseMap().get(key) || []) {
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: t => t.parentElement.closest('.vn, sup') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+      let t; while ((t = w.nextNode())) out.push(t);
+    }
+    return out;
+  }
+  function pointOffset(nodes, node, off) {
+    const r = document.createRange(); r.setStart(node, off); r.collapse(true);
+    let acc = 0;
+    for (const t of nodes) {
+      if (t === node) return acc + off;
+      if (r.comparePoint(t, 0) >= 0) return acc;      // this text starts at or after the point
+      acc += t.length;
+    }
+    return acc;
+  }
+  function captureSelection() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount || S.view !== 'book') return null;
+    const r = sel.getRangeAt(0), reader = $('#reader');
+    if (!reader || !reader.contains(r.commonAncestorContainer)) return null;
+    const keys = [];
+    for (const [el] of vSpans) if (r.intersectsNode(el) && keys[keys.length - 1] !== el.dataset.v) keys.push(el.dataset.v);
+    if (!keys.length) return null;
+    const text = k => verseNodes(k).map(t => t.data).join('');
+    let so = pointOffset(verseNodes(keys[0]), r.startContainer, r.startOffset);
+    let eo = pointOffset(verseNodes(keys[keys.length - 1]), r.endContainer, r.endOffset);
+    // drop a first verse the selection only touches the end of, and a last verse it only touches the start of
+    while (keys.length > 1 && !text(keys[0]).slice(so).trim()) { keys.shift(); so = 0; }
+    while (keys.length > 1 && !text(keys[keys.length - 1]).slice(0, eo).trim()) { keys.pop(); eo = text(keys[keys.length - 1]).length; }
+    const quote = keys.map((k, i) => text(k).slice(i === 0 ? so : 0, i === keys.length - 1 ? eo : undefined)).join('').replace(/\s+/g, ' ').trim();
+    if (!quote) return null;
+    const a = keys[0].split(':').map(Number), b = keys[keys.length - 1].split(':').map(Number);
+    return { bid: S.bid, s: [a[0], a[1], so], e: [b[0], b[1], eo], quote: quote.length > 600 ? quote.slice(0, 600) + '…' : quote, rect: r.getBoundingClientRect() };
+  }
+  function clearPaint() {
+    $$('#reader .uh').forEach(u => { const p = u.parentNode; while (u.firstChild) p.insertBefore(u.firstChild, u); p.removeChild(u); p.normalize(); });
+  }
+  function paintNotes() {
+    if (S.view !== 'book') return;
+    clearPaint();
+    for (const n of N.list) {
+      if (n.bid !== S.bid || !n.s) continue;
+      const a = nnum(n.s), b = nnum(n.e), ka = `${n.s[0]}:${n.s[1]}`, kb = `${n.e[0]}:${n.e[1]}`;
+      const keys = new Set();
+      for (const [el, k] of vSpans) if (k >= a && k <= b) keys.add(el.dataset.v);
+      for (const key of keys) {
+        const lo = key === ka ? n.s[2] : 0, hi = key === kb ? n.e[2] : Infinity;
+        let pos = 0;
+        for (const t of verseNodes(key)) {
+          const len = t.length, x = Math.max(lo - pos, 0), y = Math.min(hi - pos, len);
+          pos += len;
+          if (x >= y) continue;
+          let m = t;
+          if (x > 0) m = t.splitText(x);
+          if (y - x < m.length) m.splitText(y - x);
+          const sp = document.createElement('span');
+          sp.className = `uh uh-${n.color}${n.text.trim() ? ' noted' : ''}`;
+          sp.dataset.n = n.id;
+          m.parentNode.insertBefore(sp, m);
+          sp.appendChild(m);
+        }
+      }
+    }
+  }
+
+  // ---- selection toolbar
+  let pend = null, selTimer = null, barHeld = false;
+  function hideSelBar() { $('#sel-bar').hidden = true; pend = null; }
+  function onSelChange() {
+    clearTimeout(selTimer);
+    selTimer = setTimeout(() => {
+      const bar = $('#sel-bar'), c = modal().open ? null : captureSelection();
+      if (!c) { if (!barHeld) hideSelBar(); return; }
+      pend = c;
+      bar.hidden = false;
+      const docked = narrow('(max-width: 760px)') || !canHover();
+      bar.classList.toggle('dock', docked);
+      if (docked) { bar.style.left = bar.style.top = ''; return; }
+      const w = bar.offsetWidth, h = bar.offsetHeight, r = c.rect;
+      let y = r.bottom + 8;
+      if (y + h > window.innerHeight - 8) y = Math.max(8, r.top - h - 8);
+      bar.style.left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8)) + 'px';
+      bar.style.top = y + 'px';
+    }, 260);
+  }
+  function addHighlight(color, open) {
+    const c = pend; if (!c) return;
+    const now = Date.now();
+    const n = { id: newId(), bid: c.bid, s: c.s, e: c.e, quote: c.quote, color, text: '', tags: [], mentions: [], created: now, updated: now };
+    N.list.push(n);
+    store.set('niv-hl', color);
+    const sel = window.getSelection(); if (sel) sel.removeAllRanges();
+    hideSelBar();
+    saveNotes();
+    refreshNotes();
+    if (open) editNote(n.id);
+  }
+  function newNote() {
+    const now = Date.now();
+    const n = { id: newId(), bid: null, s: null, e: null, quote: '', color: 'yellow', text: '', tags: [], mentions: [], created: now, updated: now };
+    N.list.push(n); reindexNotes();
+    editNote(n.id);
+  }
+  function deleteNote(id) {
+    N.list = N.list.filter(n => n.id !== id);
+    saveNotes();
+    refreshNotes();
+  }
+  function refreshNotes() {
+    reindexNotes();
+    paintNotes();
+    lastRangeKey = null; renderRight();
+    renderNotesTab();
+    if (S.view === 'notes') renderNotesList();
+    if (S.view === 'conc') markConcMentions();
+  }
+
+  // ---- editor (in the shared modal)
+  let editing = null, saveTimer = null;
+  function editNote(id) {
+    const n = N.byId.get(id); if (!n) return;
+    showModal(
+      `<span class="k">${n.s ? (n.text.trim() ? 'My note' : 'My highlight') : 'My note'}</span>${n.bid ? `<span class="r">${esc(noteRef(n))}</span>` : ''}`,
+      `${n.quote ? `<blockquote class="mn-quote uh-${n.color}" id="note-quote">${esc(n.quote)}</blockquote>` : ''}
+       <div class="swatches">${COLORS.map(c => `<button class="sw uh-${c}${c === n.color ? ' on' : ''}" data-note-color="${c}" title="${c}" aria-label="${c}"></button>`).join('')}</div>
+       <textarea id="note-text" rows="6" placeholder="Type your note. Tag it with #Group.WedNight (dots nest tags) and link a concordance word with @Abel.">${esc(n.text)}</textarea>
+       <div class="suggest" id="note-suggest"></div>
+       <div class="mn-text" id="note-preview"></div>`,
+      `<button data-note-del="${id}">Delete</button><span class="sp"></span>${n.bid ? `<button data-go="v-${n.bid}-${n.s[0]}-${n.s[1]}">Show in text</button>` : ''}<button data-note-done>Done</button>`);
+    editing = id;
+    const ta = $('#note-text');
+    const sync = () => {
+      n.text = ta.value; n.updated = Date.now(); parseTokens(n);
+      $('#note-preview').innerHTML = n.tags.length || n.mentions.length ? noteHtml(n.text) : '';
+      suggest(ta);
+      clearTimeout(saveTimer); saveTimer = setTimeout(saveNotes, 400);
+    };
+    ta.addEventListener('input', sync);
+    ta.addEventListener('click', () => suggest(ta));
+    ta.addEventListener('keyup', e => { if (e.key && e.key.startsWith('Arrow')) suggest(ta); });
+    $('#note-preview').innerHTML = n.tags.length || n.mentions.length ? noteHtml(n.text) : '';
+    if (!n.text) ta.focus();
+  }
+  function finishEdit() {
+    if (!editing) return;
+    const n = N.byId.get(editing);
+    editing = null;
+    clearTimeout(saveTimer);
+    if (n && !n.s && !n.text.trim()) N.list = N.list.filter(x => x !== n);   // an empty loose note is not kept
+    saveNotes();
+    refreshNotes();
+  }
+  // suggestions for the #tag or @word being typed
+  function suggest(ta) {
+    const box = $('#note-suggest'); if (!box) return;
+    const m = /(^|[\s(])([#@])([\w.-]*)$/.exec(ta.value.slice(0, ta.selectionStart));
+    let items = [];
+    if (m && m[2] === '#') {
+      const f = m[3].toLowerCase(), all = new Map();
+      for (const n of N.list) for (const t of n.tags) t.split('.').forEach((_, i, a) => { const p = a.slice(0, i + 1).join('.'); all.set(p.toLowerCase(), p); });
+      items = [...all].filter(([k]) => k.startsWith(f) && k !== f).sort().slice(0, 8).map(([, p]) => '#' + p);
+    } else if (m && m[3]) {
+      const f = mkey(m[3]);
+      items = S.m.concordance.filter(x => mkey(x[1]).startsWith(f)).slice(0, 8).map(x => '@' + mentionOf(x[1]));
+    }
+    box.innerHTML = items.map(t => `<button data-sug="${esc(t)}" data-len="${m[3].length + 1}">${esc(t)}</button>`).join('');
+  }
+  function applySuggestion(btn) {
+    const ta = $('#note-text'); if (!ta) return;
+    const end = ta.selectionStart, start = end - +btn.dataset.len;
+    ta.setRangeText(btn.dataset.sug + ' ', start, end, 'end');
+    ta.focus();
+    ta.dispatchEvent(new Event('input'));
+  }
+
+  // ---- left tab: tag tree, mentions
+  function tagTree() {
+    const root = { kids: new Map() };
+    for (const n of N.list) {
+      const seen = new Set();
+      for (const t of n.tags) {
+        let node = root, path = '';
+        for (const part of t.split('.')) {
+          path = path ? path + '.' + part : part;
+          const k = part.toLowerCase();
+          if (!node.kids.has(k)) node.kids.set(k, { label: part, path, kids: new Map(), n: 0 });
+          node = node.kids.get(k);
+          if (!seen.has(path.toLowerCase())) { seen.add(path.toLowerCase()); node.n++; }
+        }
+      }
+    }
+    return root;
+  }
+  function tagNodeHtml(node, depth) {
+    return [...node.kids.values()].sort((a, b) => a.label.localeCompare(b.label)).map(k => {
+      const link = `<a href="#view:notes:${encodeURIComponent('#' + k.path)}">${depth ? '' : '#'}${esc(k.label)}</a><span class="cnt">${k.n}</span>`;
+      return k.kids.size
+        ? `<details open style="--d:${depth}"><summary>${link}</summary>${tagNodeHtml(k, depth + 1)}</details>`
+        : `<div class="leaf" style="--d:${depth}">${link}</div>`;
+    }).join('');
+  }
+  function mentionCounts() {
+    const out = new Map();
+    for (const n of N.list) for (const w of new Set(n.mentions.map(mkey))) {
+      if (!out.has(w)) out.set(w, { label: n.mentions.find(x => mkey(x) === w), n: 0 });
+      out.get(w).n++;
+    }
+    return out;
+  }
+  function renderNotesTab() {
+    const tags = tagNodeHtml(tagTree(), 0);
+    const mens = [...mentionCounts().values()].sort((a, b) => a.label.localeCompare(b.label))
+      .map(x => `<div class="leaf" style="--d:0"><a href="#view:notes:${encodeURIComponent('@' + x.label)}">@${esc(x.label)}</a><span class="cnt">${x.n}</span></div>`).join('');
+    const hl = N.list.filter(n => n.s).length;
+    $('#tab-notes').innerHTML = `<div class="mn-tools"><a class="btn" href="#view:notes">All notes <b>${N.list.length}</b></a><button class="btn" data-note-new>New note</button></div>
+      <div class="mn-hint">${N.list.length ? `${hl} highlight${hl === 1 ? '' : 's'} · ${N.list.length - hl} loose note${N.list.length - hl === 1 ? '' : 's'}` : 'Select words in any verse to highlight them or add a note.'}</div>
+      <div class="nav-group">Tags</div><div class="mn-tree">${tags || '<div class="mn-none">Type #Group.WedNight in a note to tag it. Dots nest tags.</div>'}</div>
+      <div class="nav-group">Concordance links</div><div class="mn-tree">${mens || '<div class="mn-none">Type @Abel in a note to link a concordance word.</div>'}</div>`;
+  }
+
+  // ---- main view
+  function showNotes(filter, restore) {
+    S.bid = null;
+    setView('notes', `<div class="reader notes-view"><h1 class="book-title">My notes</h1>
+      <div class="book-sub" id="mn-sub"></div>
+      <div class="mn-bar"><input id="mn-q" type="search" autocomplete="off" spellcheck="false" placeholder="Filter by words, #tag or @word" value="${esc(filter || '')}">
+        <button class="btn" data-note-new>New note</button><button class="btn" data-note-export>Export</button><button class="btn" data-note-import>Import</button></div>
+      <div id="mn-list"></div></div>`);
+    $('#mn-q').addEventListener('input', renderNotesList);
+    renderNotesList();
+    switchTab('notes');
+    if (restore != null) main().scrollTop = restore;
+    renderRight();
+  }
+  function renderNotesList() {
+    const box = $('#mn-list'); if (!box) return;
+    const terms = $('#mn-q').value.trim().split(/\s+/).filter(Boolean);
+    const list = sortedNotes(N.list.filter(n => matchNote(n, terms)));
+    $('#mn-sub').textContent = `${list.length} of ${N.list.length} note${N.list.length === 1 ? '' : 's'} and highlights · saved in this browser only — use Export to back up or move them`;
+    let html = '', last;
+    for (const n of list) {
+      if (n.bid !== last) { last = n.bid; html += `<h2 class="sec">${n.bid ? esc(B[n.bid].name) : 'Loose notes'}</h2>`; }
+      html += `<article class="mn-card" data-note="${n.id}">
+        <div class="mn-head"><span class="dot uh-${n.color}"></span>${n.bid ? `<a class="mn-ref" href="#v-${n.bid}-${n.s[0]}-${n.s[1]}">${esc(noteRef(n))}</a>` : ''}<span class="mn-date">${new Date(n.updated).toLocaleDateString()}</span><button class="btn" data-note-edit="${n.id}">Edit</button></div>
+        ${n.quote ? `<blockquote class="mn-quote uh-${n.color}">${esc(n.quote)}</blockquote>` : ''}
+        ${n.text.trim() ? `<div class="mn-text">${noteHtml(n.text)}</div>` : ''}</article>`;
+    }
+    box.innerHTML = html || `<div class="rs-empty">${N.list.length ? 'No notes match this filter.' : 'No notes yet. Open a book, select some words in a verse, then pick a colour or tap Note.'}</div>`;
+  }
+  // concordance entries show how many of my notes link to them
+  function markConcMentions() {
+    $$('.ce .mn-link').forEach(a => a.remove());
+    for (const [w, x] of mentionCounts()) {
+      const id = concId(w), el = id && document.getElementById(id);
+      if (el) $('h3', el).insertAdjacentHTML('beforeend', ` <a class="mn-link" href="#view:notes:${encodeURIComponent('@' + x.label)}">${x.n} of my notes</a>`);
+    }
+  }
+
+  function exportNotes() {
+    const blob = new Blob([JSON.stringify({ app: 'niv-notes', v: 1, exported: new Date().toISOString(), notes: N.list }, null, 1)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `bible-notes-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  function importNotes() {
+    const inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.json,application/json';
+    inp.addEventListener('change', async () => {
+      const f = inp.files[0]; if (!f) return;
+      let added = 0, updated = 0;
+      try {
+        const d = JSON.parse(await f.text());
+        if (!d || !Array.isArray(d.notes)) throw new Error('not a notes file');
+        for (const raw of d.notes) {
+          const n = cleanNote(raw); if (!n) continue;
+          const old = N.byId.get(n.id);
+          if (!old) { N.list.push(n); N.byId.set(n.id, n); added++; }
+          else if (n.updated > old.updated) { N.list[N.list.indexOf(old)] = n; N.byId.set(n.id, n); updated++; }
+        }
+      } catch (e) { alert('That file could not be read as a notes export.'); return; }
+      saveNotes();
+      refreshNotes();
+      alert(`Import finished: ${added} added, ${updated} updated.`);
+    });
+    inp.click();
+  }
+
+  function initNotes() {
+    renderNotesTab();
+    const bar = $('#sel-bar');
+    bar.innerHTML = COLORS.map(c => `<button class="sw uh-${c}" data-hl="${c}" title="Highlight ${c}" aria-label="Highlight ${c}"></button>`).join('') + `<button class="btn" data-hl-note>Note</button>`;
+    bar.addEventListener('mousedown', e => e.preventDefault());           // keep the text selected
+    bar.addEventListener('pointerdown', () => { barHeld = true; });
+    document.addEventListener('pointerup', () => setTimeout(() => { barHeld = false; }, 500));
+    document.addEventListener('selectionchange', onSelChange);
+    document.addEventListener('mousedown', e => { if (e.target.closest('[data-sug]')) e.preventDefault(); });   // keep the caret in the note
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-hl],[data-hl-note],[data-sug],[data-note-new],[data-note-edit],[data-note-del],[data-note-done],[data-note-color],[data-note-export],[data-note-import]');
+      if (t) {
+        const d = t.dataset;
+        if (d.hl) return addHighlight(d.hl, false);
+        if ('hlNote' in d) return addHighlight(store.get('niv-hl') || 'yellow', true);
+        if (d.sug) return applySuggestion(t);
+        if ('noteNew' in d) return newNote();
+        if (d.noteEdit) return editNote(d.noteEdit);
+        if ('noteDone' in d) return closeModal();
+        if ('noteExport' in d) return exportNotes();
+        if ('noteImport' in d) return importNotes();
+        if (d.noteDel) { if (confirm('Delete this note and its highlight?')) { editing = null; closeModal(); deleteNote(d.noteDel); } return; }
+        if (d.noteColor) {
+          const n = N.byId.get(editing); if (!n) return;
+          n.color = d.noteColor; n.updated = Date.now(); store.set('niv-hl', n.color);
+          $$('.swatches .sw').forEach(b => b.classList.toggle('on', b === t));
+          const q = $('#note-quote'); if (q) q.className = `mn-quote uh-${n.color}`;
+          saveNotes();
+        }
+        return;
+      }
+      if (e.target.closest('a, button, input, textarea, summary')) return;
+      const sel = window.getSelection();
+      if (sel && !sel.isCollapsed) return;
+      const u = e.target.closest('.uh[data-n]');
+      if (u) return editNote(u.dataset.n);
+      const card = e.target.closest('.mn-card[data-note]');
+      if (card) editNote(card.dataset.note);
+    });
+    modal().addEventListener('close', finishEdit);
+    window.addEventListener('pagehide', () => { if (editing) saveNotes(); });
+  }
+
   // ------------------------------------------------------------------ chrome: tabs, toggles, theme, font
   function switchTab(t) {
     $$('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
     $('#tab-nav').hidden = t !== 'nav';
     $('#tab-conc').hidden = t !== 'conc';
+    $('#tab-notes').hidden = t !== 'notes';
   }
   const narrow = q => window.matchMedia(q).matches;
   function toggleSide(side) {
@@ -814,6 +1240,8 @@
   function init() {
     if (!S.m) { $('#view').innerHTML = '<div class="reader"><p>Could not load <code>data/manifest.js</code>.</p></div>'; return; }
     S.m.books.forEach(b => { B[b.id] = b; ORDER.push(b.id); });
+    loadNotes();
+    initNotes();
     buildNav();
     // book filters
     const opts = S.m.books.map((b, i) => `<option value="${i}">${esc(b.name)}</option>`).join('');
@@ -845,7 +1273,7 @@
       activate(decodeURIComponent(href.slice(1)), a);
     });
     window.addEventListener('hashchange', route);
-    main().addEventListener('scroll', () => { closePops(); onScroll(); }, { passive: true });
+    main().addEventListener('scroll', () => { closePops(); onScroll(); if (pend) onSelChange(); }, { passive: true });
     window.addEventListener('resize', () => { measure(); onScroll(true); });
 
     // right sidebar: hover highlights verses
