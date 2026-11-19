@@ -190,7 +190,7 @@
       .map(t => S.m.sections.find(s => s.title === t)).filter(s => s && s.converted);
     setView('home', `<div class="reader"><div class="welcome">
       <h1>NIV Zondervan Study Bible</h1>
-      <p>Read the text in the middle; study notes for whatever is on screen appear on the right. Hover any reference to preview it, and use the search bar for scripture, study notes, charts and the concordance.</p>
+      <p>Read the text in the middle; study notes for whatever is on screen appear on the right. ${canHover() ? 'Hover' : 'Tap'} any reference to preview it, and use the search bar for scripture, study notes, charts and the concordance.</p>
       <h2 class="sec">Old Testament</h2><div class="book-grid">${grid(S.m.books.slice(0, 39))}</div>
       <h2 class="sec">New Testament</h2><div class="book-grid">${grid(S.m.books.slice(39))}</div>
       <h2 class="sec">Reference</h2><div class="book-grid">${refSec.map(s => `<a href="#s-${pad3(s.num)}-1">${esc(s.title)}<span>Section</span></a>`).join('')}<a href="#view:figures">Charts, maps &amp; pictures<span>${S.m.figures.length} items</span></a><a href="#view:conc">Concordance<span>${S.m.concordance.length.toLocaleString()} words</span></a><a href="#view:notes">My notes<span>${N.list.length} saved</span></a></div>
@@ -287,7 +287,7 @@
       head.textContent = s.title || '';
       body.innerHTML = items.length
         ? `<div class="rs-group">On this page</div><nav class="outline">${items.map(x => `<a href="#${x[0]}" class="lvl${x[2]}${x[0] === cur ? ' on' : ''}">${x[3] ? `<span class="ico f">${ICON[x[3]] || '▦'}</span>` : ''}${esc(x[1])}</a>`).join('')}</nav>`
-        : `<div class="rs-empty">Hover any scripture reference in this section to preview it.</div>`;
+        : `<div class="rs-empty">${canHover() ? 'Hover' : 'Tap'} any scripture reference in this section to preview it.</div>`;
       return;
     }
     if (S.view !== 'book') {
@@ -398,7 +398,7 @@
     const r = await passage(`c-${p.bid}-${c}`, null);
     const foot = `<button data-passage="c-${p.bid}-${c - 1}" ${V.chFirst.has(c - 1) ? '' : 'disabled'}>‹ ${esc(info.abbr)} ${c - 1}</button>
       <button data-passage="c-${p.bid}-${c + 1}" ${V.chFirst.has(c + 1) ? '' : 'disabled'}>${esc(info.abbr)} ${c + 1} ›</button>
-      <span class="sp"></span>${pdf ? `<button data-pdf="${esc(pdf)}">Open in PDF (with study notes)</button>` : ''}`;
+      <span class="sp"></span>${info.converted ? `<button data-go="${esc(id)}">Show in text</button>` : pdf ? `<button data-pdf="${esc(pdf)}">Open in PDF (with study notes)</button>` : ''}`;
     showModal(`<span class="k">Scripture</span>${esc(refLabel(id, end) || info.name + ' ' + c)}`,
       `<div class="passage">${versesHtml(r.verses, p.bid, { ids: true })}</div>`, foot);
     if (p.t === 'v') {
@@ -475,10 +475,14 @@
   }
   const secDom = {};
   async function sectionPreview(id, sp) {
+    const x = await sectionExcerpt(id, sp);
+    return x ? `<div class="pop-h"><span class="k">${esc(x.title)}</span><span class="go">click to go there</span></div>${x.html}` : '';
+  }
+  async function sectionExcerpt(id, sp) {
     const d = await getSection(sp.num);
     if (!secDom[sp.num]) { const t = document.createElement('template'); t.innerHTML = d.html; secDom[sp.num] = t.content; }
     const el = secDom[sp.num].getElementById(id);
-    if (!el) return '';
+    if (!el) return null;
     // the target block plus the next couple of blocks, so headings and bylines carry some text
     let html = '', n = 0, x = el;
     if (x.tagName === 'SPAN' && !x.textContent) x = x.nextElementSibling;
@@ -488,7 +492,27 @@
       if (x.tagName === 'FIGURE' || x.classList.contains('idx-cols')) break;
       x = x.nextElementSibling; n++;
     }
-    return `<div class="pop-h"><span class="k">${esc(d.title)}</span><span class="go">click to go there</span></div>${html}`;
+    return html ? { title: d.title, html } : null;
+  }
+
+  // Without a mouse there is no hover, so a tapped reference opens its preview in the window instead of
+  // leaving the page; "Show in text" / "Go there" then follows it. Lists that exist to navigate keep jumping.
+  const NAV_LISTS = '.left, .search-panel, #search-results, .book-grid, .fig-list, .letters, .nav, .outline';
+  async function tapPreview(a, id) {
+    if (canHover() || a.closest(NAV_LISTS)) return false;
+    if (S.view === 'section' && a.closest('#reader') && /Index|Table of Contents/.test(sec(S.snum).title || '')) return false;
+    closePops();
+    const sp = parseSid(id);
+    if (sp) {
+      const x = await sectionExcerpt(id, sp).catch(() => null);
+      if (!x) return false;
+      showModal(`<span class="k">${esc(x.title)}</span>`, x.html, `<span class="sp"></span><button data-go="${esc(id)}">Go there</button>`);
+      return true;
+    }
+    const p = parseId(id);
+    if (!p || !(p.t === 'v' || p.t === 'c') || !B[p.bid].converted) return false;
+    await openPassage(id, a.dataset.end, a.dataset.pdf);
+    return true;
   }
   async function previewHtml(a) {
     if (a.classList.contains('vn')) return annPreview(a.dataset.ann);
@@ -1457,7 +1481,8 @@
       e.preventDefault();
       if (a.closest('#search-results')) { $('#q').blur(); }
       if (window.matchMedia('(max-width: 760px)').matches && a.closest('.left')) document.body.classList.remove('show-left');
-      activate(decodeURIComponent(href.slice(1)), a);
+      const id = decodeURIComponent(href.slice(1));
+      tapPreview(a, id).then(done => { if (!done) activate(id, a); });
     });
     window.addEventListener('hashchange', route);
     main().addEventListener('scroll', () => { closePops(); onScroll(); if (pend) onSelChange(); }, { passive: true });
