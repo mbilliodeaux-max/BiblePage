@@ -15,6 +15,7 @@
     },
     search(id, d) { S.search[id] = d; },
     conc(letter, d) { S.conc[letter] = d; },
+    geo(d) { S.geo = d; },
   };
 
   const loading = {};
@@ -1223,7 +1224,7 @@
   }
 
   // ------------------------------------------------------------------ picture viewer (click a picture: full screen, wheel / pinch zoom, drag to pan)
-  const Z = { s: 1, x: 0, y: 0, fit: 1, pts: new Map(), moved: false, pinch: 0 };
+  const Z = { s: 1, x: 0, y: 0, fit: 1, pts: new Map(), moved: false, pinch: 0, key: null, pin: null };
   const zoomBox = () => $('#zoom'), zoomImg = () => $('#zoom-img');
   function zoomApply() {
     const d = zoomBox(), im = zoomImg(), w = im.naturalWidth * Z.s, h = im.naturalHeight * Z.s;
@@ -1231,6 +1232,81 @@
     Z.x = w <= d.clientWidth ? (d.clientWidth - w) / 2 : Math.min(0, Math.max(d.clientWidth - w, Z.x));
     Z.y = h <= d.clientHeight ? (d.clientHeight - h) / 2 : Math.min(0, Math.max(d.clientHeight - h, Z.y));
     im.style.transform = `translate(${Z.x}px, ${Z.y}px) scale(${Z.s})`;
+    placePin();
+  }
+
+  // ---- present-day coordinates for a point on a calibrated map (data/geo.js, made by converter/geo.py)
+  function unproject(proj, p, X, Y) {
+    const deg = r => r * 180 / Math.PI;
+    if (proj === 'eq') return [deg(Y), deg(X / Math.cos(p[0]))];
+    if (proj === 'merc') return [deg(2 * Math.atan(Math.exp(Y)) - Math.PI / 2), deg(X)];
+    const n = p[0], rho = Math.hypot(X, Y);
+    return [deg(2 * Math.atan(Math.pow(1 / rho, 1 / n)) - Math.PI / 2), deg(Math.atan2(X, -Y) / n)];
+  }
+  function mapPoint(key, x, y) {
+    const panels = S.geo && S.geo[key];
+    if (!panels) return null;
+    // the smallest panel holding the point wins, so an inset beats the map it sits on
+    const hit = panels.filter(q => x >= q.box[0] && x <= q.box[2] && y >= q.box[1] && y <= q.box[3])
+      .sort((a, b) => (a.box[2] - a.box[0]) * (a.box[3] - a.box[1]) - (b.box[2] - b.box[0]) * (b.box[3] - b.box[1]))[0];
+    if (!hit || hit.none) return { outside: true };
+    const [lat, lon] = panelLL(hit, x, y);
+    return { lat, lon, err: hit.err, panel: hit };
+  }
+  function panelLL(q, x, y) {
+    const u = x / q.s, v = y / q.s, A = q.A;
+    const [lat, lon] = unproject(q.proj, q.p, A[0] + A[1] * u + A[2] * v, A[3] + A[4] * u + A[5] * v);
+    return [lat, ((lon + 540) % 360) - 180];
+  }
+  function kmBetween([la1, lo1], [la2, lo2]) {
+    const r = Math.PI / 180, a = Math.sin((la2 - la1) * r / 2) ** 2 + Math.cos(la1 * r) * Math.cos(la2 * r) * Math.sin((lo2 - lo1) * r / 2) ** 2;
+    return 2 * 6371 * Math.asin(Math.sqrt(a));
+  }
+  // the Google Maps zoom that shows about as much ground across the screen as the viewer shows right now
+  function googleZoom(r) {
+    const d = zoomBox(), im = zoomImg(), b = r.panel.box;
+    const x0 = Math.max(b[0], -Z.x / Z.s), x1 = Math.min(b[2], (d.clientWidth - Z.x) / Z.s);
+    const y = Math.max(b[1], Math.min(b[3], Z.pin.y));
+    if (!(x1 > x0)) return 10;
+    const groundKm = kmBetween(panelLL(r.panel, x0, y), panelLL(r.panel, x1, y)) * (d.clientWidth / Z.s) / (x1 - x0);
+    const metresPerPixel = groundKm * 1000 / window.innerWidth;
+    const z = Math.log2(156543.03 * Math.cos(r.lat * Math.PI / 180) / metresPerPixel);
+    return Math.max(3, Math.min(18, Math.round(z)));
+  }
+  const fmtLL = (v, pos, neg) => `${Math.abs(v).toFixed(4)}° ${v >= 0 ? pos : neg}`;
+  function showPin(x, y) {
+    const r = mapPoint(Z.key, x, y), box = $('#zoom-pop');
+    if (!r) return;
+    Z.pin = { x, y, r };
+    if (r.outside) {
+      box.innerHTML = `<div class="zp-note">No coordinates here: this part of the picture is not the map.</div>`;
+    } else {
+      const q = `${r.lat.toFixed(5)},${r.lon.toFixed(5)}`;
+      const err = r.err < 1 ? 'about ±1 km' : `about ±${r.err < 10 ? r.err.toFixed(1) : Math.round(r.err)} km`;
+      box.innerHTML = `<div class="zp-ll">${fmtLL(r.lat, 'N', 'S')}, ${fmtLL(r.lon, 'E', 'W')}</div>
+        <div class="zp-note">Present-day location, ${err}</div>
+        <div class="zp-act"><a id="zoom-gmap" data-q="${q}" href="https://www.google.com/maps/place/${q}" target="_blank" rel="noopener">Open in Google Maps</a><button data-zoom-copy="${q}">Copy</button></div>
+        <div class="zp-src">Map fitted to places from <a href="https://www.openbible.info/geo/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY 4.0) and Wikidata</div>`;
+    }
+    box.hidden = false;
+    $('#zoom-mark').hidden = !!r.outside;
+    placePin();
+  }
+  function hidePin() { Z.pin = null; $('#zoom-pop').hidden = true; $('#zoom-mark').hidden = true; }
+  function placePin() {
+    if (!Z.pin) return;
+    const d = zoomBox(), box = $('#zoom-pop'), mark = $('#zoom-mark');
+    const X = Z.x + Z.pin.x * Z.s, Y = Z.y + Z.pin.y * Z.s;
+    mark.style.left = X + 'px'; mark.style.top = Y + 'px';
+    const link = $('#zoom-gmap');                     // kept in step with zooming the picture after the click
+    if (link && Z.pin.r && !Z.pin.r.outside) link.href = `https://www.google.com/maps/place/${link.dataset.q}/@${link.dataset.q},${googleZoom(Z.pin.r)}z`;
+    const w = box.offsetWidth, h = box.offsetHeight;
+    box.style.left = Math.max(8, Math.min(X - w / 2, d.clientWidth - w - 8)) + 'px';
+    box.style.top = (Y - h - 16 > 8 ? Y - h - 16 : Math.min(Y + 16, d.clientHeight - h - 8)) + 'px';
+  }
+  function updateGeoHint() {
+    const hint = $('#zoom-hint');
+    hint.hidden = !(S.geo && S.geo[Z.key]);
   }
   function zoomFit() {
     const d = zoomBox(), im = zoomImg();
@@ -1246,9 +1322,13 @@
     Z.s = ns;
     zoomApply();
   }
-  function openZoom(src, alt) {
+  function openZoom(src, alt, key) {
     const d = zoomBox(), im = zoomImg();
     closePops();
+    Z.key = key || null;
+    hidePin();
+    if (S.geo === undefined) { S.geo = null; load('geo').then(updateGeoHint, () => {}); }
+    updateGeoHint();
     im.style.visibility = 'hidden';
     im.onload = () => { zoomFit(); im.style.visibility = ''; };
     im.alt = alt || '';
@@ -1260,14 +1340,14 @@
     const d = zoomBox();
     document.addEventListener('click', e => {
       const im = e.target.closest && e.target.closest('.fig-img img');
-      if (im && !im.closest('a')) openZoom(im.currentSrc || im.src, im.alt);
+      if (im && !im.closest('a')) openZoom(im.currentSrc || im.src, im.alt, im.getAttribute('src'));
     });
     d.addEventListener('wheel', e => {
       e.preventDefault();
       zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0018)));
     }, { passive: false });
     d.addEventListener('pointerdown', e => {
-      if (e.target.closest('.zoom-bar')) return;
+      if (e.target.closest('.zoom-bar, .zoom-pop')) return;
       d.setPointerCapture(e.pointerId);
       Z.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (Z.pts.size === 1) Z.moved = false;
@@ -1293,7 +1373,8 @@
     d.addEventListener('pointerup', up);
     d.addEventListener('pointercancel', up);
     d.addEventListener('dblclick', e => {
-      if (e.target.closest('.zoom-bar')) return;
+      clearTimeout(Z.clickT);
+      if (e.target.closest('.zoom-bar, .zoom-pop')) return;
       if (Z.s > Z.fit * 1.05) zoomFit(); else zoomAt(e.clientX, e.clientY, 3);
     });
     d.addEventListener('click', e => {
@@ -1306,9 +1387,22 @@
         else d.close();
         return;
       }
+      const copy = e.target.closest('[data-zoom-copy]');
+      if (copy) {
+        const done = () => { copy.textContent = 'Copied'; };
+        try { navigator.clipboard.writeText(copy.dataset.zoomCopy).then(done, () => {}); } catch (err) { /* no clipboard */ }
+        return;
+      }
+      if (e.target.closest('.zoom-pop')) return;
       const im = zoomImg();
       const onPicture = e.clientX >= Z.x && e.clientX <= Z.x + im.naturalWidth * Z.s && e.clientY >= Z.y && e.clientY <= Z.y + im.naturalHeight * Z.s;
-      if (!onPicture && !Z.moved) d.close();          // a plain click on the dark surround closes
+      if (Z.moved) return;
+      if (!onPicture) { d.close(); return; }          // a plain click on the dark surround closes
+      // a plain click on a calibrated map: where is this today?  (wait a moment so a double-click zooms instead)
+      clearTimeout(Z.clickT);
+      if (e.detail > 1) return;
+      const x = (e.clientX - Z.x) / Z.s, y = (e.clientY - Z.y) / Z.s;
+      Z.clickT = setTimeout(() => showPin(x, y), 230);
     });
     window.addEventListener('resize', () => { if (d.open) zoomFit(); });
     window.addEventListener('hashchange', () => { if (d.open) d.close(); });   // Back leaves the viewer

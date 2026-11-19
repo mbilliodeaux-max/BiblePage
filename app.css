@@ -399,3 +399,26 @@ dialog#zoom::backdrop { background: rgba(16, 13, 9, .95); }
 }
 .zoom-bar button { min-width: 40px; height: 38px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: #f2ede3; font-size: 16px; font-weight: 600; cursor: pointer; }
 .zoom-bar button:hover { background: rgba(255, 255, 255, .14); }
+.zoom-mark {
+  position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; pointer-events: none;
+  border: 3px solid #fff; background: #d6332a; box-shadow: 0 0 0 2px rgba(0, 0, 0, .45), 0 2px 8px rgba(0, 0, 0, .5);
+}
+.zoom-mark[hidden], .zoom-pop[hidden], .zoom-hint[hidden] { display: none; }
+.zoom-pop {
+  position: absolute; z-index: 2; min-width: 230px; max-width: calc(100vw - 16px); padding: 10px 12px; border-radius: 12px; cursor: default;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); font-family: var(--ui); font-size: 13px;
+}
+.zp-ll { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.zp-note { color: var(--ink-3); margin-top: 2px; }
+.zp-act { display: flex; gap: 8px; margin-top: 9px; }
+.zp-act a, .zp-act button {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 11px; font-size: 13px; cursor: pointer; color: var(--link);
+}
+.zp-act a { flex: 1; text-align: center; font-weight: 600; }
+.zp-act a:hover { text-decoration: none; border-color: var(--link); }
+.zoom-hint {
+  position: absolute; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); pointer-events: none;
+  padding: 7px 14px; border-radius: 999px; background: rgba(30, 26, 20, .82); color: #f2ede3; font-family: var(--ui); font-size: 13px; white-space: nowrap;
+}
+.zp-src { margin-top: 8px; font-size: 11px; color: var(--ink-3); }
+.zp-src a { color: inherit; text-decoration: underline; }
