@@ -336,11 +336,47 @@ class Linker:
         self.unresolved = 0
         self.outside = 0
         self.misses = []
+        self.figs = {}          # page -> [(y, id)] of the figures whose content starts on that page
+        self.fig_more = {}      # page -> [id] of the figures that run on to that page
+        self.headings = {}      # page -> [(y, squeezed text, id)] of the headings in the non-book sections
+        self.fig_title = {}     # id -> the figure's own heading, squeezed to letters and digits
+        self.index = False      # resolving a Maps / Charts / Illustrations index, whose links all mean a figure
 
     def add(self, page, y, x, aid):
         if getattr(self, "frozen", False):
             return
         self.by_page.setdefault(page, []).append((y, x, aid))
+
+    def add_fig(self, fig, fid, title):
+        """Register a figure: at its ornament, and where its content starts (which can be the next page)."""
+        if getattr(self, "frozen", False):
+            return
+        page, y = fig["at"][0], fig["at"][1] - 1
+        self.add(page, y, 0, fid)
+        if fig["items"]:
+            it = fig["items"][0]
+            cpage, cy = (it["page"], it["bbox"][1]) if isinstance(it, dict) else (it.page, it.y0)
+            if cpage != page:
+                self.add(cpage, cy, 0, fid)
+                page, y = cpage, cy
+        self.figs.setdefault(page, []).append((y, fid))
+        for p in sorted({it["page"] if isinstance(it, dict) else it.page for it in fig["items"]} - {page}):
+            self.fig_more.setdefault(p, []).append(fid)
+        self.fig_title[fid] = squeeze(title)
+
+    def page_top(self, page, text):
+        """A link to the top of a page means whatever starts on that page, not the tail of the page before."""
+        if self.index:
+            # the figures that start on the page, then any that run on to it from the page before
+            figs = [fid for _, fid in sorted(self.figs.get(page, []))] + self.fig_more.get(page, [])
+            want = squeeze(text)
+            named = [f for f in figs if want and self.fig_title[f] and (want in self.fig_title[f] or self.fig_title[f] in want)]
+            # a few maps are not boxed figures, only a heading with a picture under it
+            named += [aid for _, t, aid in sorted(self.headings.get(page, [])) if want and want == t]
+            if named or figs:
+                return (named or figs)[0]
+        cands = self.by_page.get(page)
+        return cands[0][2] if cands else None
 
     def cover(self, start, end):
         self.covered.append((tuple(start), tuple(end)))
@@ -359,11 +395,16 @@ class Linker:
     def in_covered(self, page, y):
         return any(a <= (page, y) < b for a, b in self.covered)
 
-    def resolve(self, tgt):
+    def resolve(self, tgt, text=""):
         if tgt[0] == "uri":
             return {"uri": tgt[1]}
         _, page, x, y = tgt
         res = {"pdf": self.pdf(page)}
+        if y < 1 and self.in_covered(page, y):
+            top = self.page_top(page, text)
+            if top:
+                res["id"] = top
+                return res
         cands = self.by_page.get(page, [])
         best = None
         for (ay, ax, aid) in cands:
@@ -385,6 +426,10 @@ class Linker:
         else:
             self.outside += 1   # target lies in content not converted yet -> PDF fallback
         return res
+
+
+def squeeze(t):
+    return re.sub(r"[^a-z0-9]+", "", (t or "").lower())
 
 
 def render_runs(runs, linker, ctx=None, skip=None):
@@ -445,7 +490,7 @@ def ref_end(text, start_id):
 def render_link(group, tgt, linker):
     inner = "".join(fmt(g) for g in group)
     text = "".join(g["t"] for g in group)
-    res = linker.resolve(tgt)
+    res = linker.resolve(tgt, text)
     if "uri" in res:
         return f'<a href="{html.escape(res["uri"])}" target="_blank" rel="noopener">{inner}</a>'
     attrs = []
@@ -825,6 +870,7 @@ def render_figure(fig, linker, images, fid):
             flush_flow()
             parts.append(f'<div class="fig-img">{images.tag(it, title or "")}</div>')
     flush_flow()
+    linker.add_fig(fig, fid, title)
     if fid in FIG_TITLES:
         title, kind = FIG_TITLES[fid]
     if not title:
@@ -842,13 +888,14 @@ def render_figure(fig, linker, images, fid):
 
 
 FIG_TITLES = {}
+FIG_INDEXES = {"Maps Index": "map", "Charts Index": "chart", "Illustrations Index": "illustration"}
 
 
 def harvest_figure_titles(doc, secs, linker):
     """The Maps / Charts / Illustrations indexes link to every figure; use their wording as titles."""
-    kinds = {"Maps Index": "map", "Charts Index": "chart", "Illustrations Index": "illustration"}
+    linker.index = True
     for s in secs:
-        if s["title"] not in kinds:
+        if s["title"] not in FIG_INDEXES:
             continue
         for p0 in range(s["start"] - 1, s["end"]):
             for ln in extract_page(doc, p0, raw=True, images=False):
@@ -857,9 +904,11 @@ def harvest_figure_titles(doc, secs, linker):
                     if r["link"] is not None:
                         groups.setdefault(r["link"], []).append(r["t"])
                 for tgt, parts in groups.items():
-                    res = linker.resolve(tgt)
+                    text = " ".join("".join(parts).split())
+                    res = linker.resolve(tgt, text)
                     if re.match(r"f-|s-\d{3}-f\d", res.get("id", "")):
-                        FIG_TITLES.setdefault(res["id"], (" ".join("".join(parts).split()), kinds[s["title"]]))
+                        FIG_TITLES.setdefault(res["id"], (text, FIG_INDEXES[s["title"]]))
+    linker.index = False
 
 
 def split_segments(line, gap=10):
@@ -1075,7 +1124,6 @@ def convert_book(doc, secs, bid, gdata, linker, pending):
             flush_intro()
             fid = f"f-{bid}-{len(figures) + 1}"
             fig = render_figure(f, linker, images, fid)
-            linker.add(f["at"][0], f["at"][1] - 1, 0, fid)
             fig["where"] = "intro"
             figures.append(fig)
             intro_parts.append(f'<figure class="fig" id="{fid}"><figcaption>{esc(fig["title"])}</figcaption>{fig["html"]}</figure>')
@@ -1224,7 +1272,6 @@ def convert_book(doc, secs, bid, gdata, linker, pending):
             for f in fig_queue[fq][1]:
                 fid = f"f-{bid}-{len(figures) + 1}"
                 fig = render_figure(f, linker, images, fid)
-                linker.add(f["at"][0], f["at"][1] - 1, 0, fid)
                 fig["ann"] = cur["id"] if cur else None
                 fig["c"] = cur["s"][0] if cur else 1
                 figures.append(fig)
@@ -1331,6 +1378,7 @@ def convert_section(doc, sec, linker, pending):
     print(f"section {num:03d} {title} (pages {sec['start']}-{sec['end']})", flush=True)
     items = section_items(doc, sec, f"sec-{num:03d}")
     linker.cover((sec["start"], 0), (sec["end"] + 1, 0))
+    linker.index = title in FIG_INDEXES
     images = ImageStore(f"s{num:03d}")
     keep = title == "Index to Maps"
     grid, grid_lines = title == "Table of Weights and Measures", []   # this section's small print is a grid of cells
@@ -1380,6 +1428,8 @@ def convert_section(doc, sec, linker, pending):
                     parts.append(f'<p class="byline" id="{aid}">{esc(txt)}</p>')
                 else:
                     parts.append(f'<h3 id="{aid}">{render_runs(p.runs, linker)}</h3>')
+                    if not getattr(linker, "frozen", False):
+                        linker.headings.setdefault(ln0.page, []).append((ln0.y0, squeeze(txt), aid))
                     nav.append([aid, txt, 3])
                     state["h3"] = txt
                     if title == "Zondervan’s Full-Color Maps" and re.match(r"Map \d+:", txt):
@@ -1399,7 +1449,6 @@ def convert_section(doc, sec, linker, pending):
             flush()
             fid = f"{pre}-f{len(figures) + 1}"
             fig = render_figure(f, linker, images, fid)
-            linker.add(f["at"][0], f["at"][1] - 1, 0, fid)
             figures.append({"id": fid, "kind": fig["kind"], "title": fig["title"]})
             parts.append(f'<figure class="fig" id="{fid}"><figcaption>{esc(fig["title"])}</figcaption>{fig["html"]}</figure>')
             nav.append([fid, fig["title"], 4, fig["kind"]])
@@ -1439,6 +1488,7 @@ def convert_section(doc, sec, linker, pending):
             run = []
         out.append(h)
     body = "".join(out)
+    linker.index = False
     pending.append({"num": num, "title": title, "html": body, "nav": nav, "search": search, "figures": figures})
     print(f"  {state['k']} blocks, {len(nav)} headings, {len(figures)} figures", flush=True)
 
