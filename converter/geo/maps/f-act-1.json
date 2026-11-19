@@ -1,0 +1,24 @@
+{
+ "src": "images/act/13f65d3148b71c.jpeg",
+ "figure": "f-act-1",
+ "title": "Possible Locations Where Luke Wrote the Book of Acts",
+ "status": "ok",
+ "note": "Whole picture is one map with only 7 towns; Rome is the only one west of Greece, and North Africa and the south edge are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 302],
+   "snap": "dark",
+   "pts": [
+    [152, 64, "Rome"],
+    [309, 155, "Corinth"],
+    [379, 154, "Ephesus"],
+    [501, 176, "Tarsus"],
+    [521, 191, "ae41ab4"],
+    [508, 278, "a15257a"]
+   ],
+   "check": [
+    [502, 265, "Caesarea"]
+   ]
+  }
+ ]
+}

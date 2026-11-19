@@ -1,0 +1,28 @@
+{
+ "src": "images/act/7374f6877f6a7c.jpeg",
+ "figure": "f-act-7",
+ "title": "Philip’s and Peter’s Missionary Journeys",
+ "status": "ok",
+ "note": "Whole picture is the map. Antipatris uses Aphek 2 (Tell Ras el Ain), Azotus uses Ashdod (Tel Ashdod), Bethsura uses Beth-zur. Betogabris left out (not in the gazetteer). The south-east (Dead Sea, legend area) is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 547, 600],
+   "snap": "dark",
+   "pts": [
+    [271, 35, "Caesarea"],
+    [370, 124, "a041bb3"],
+    [282, 196, "a7b2e63"],
+    [220, 215, "Joppa"],
+    [269, 249, "Lod"],
+    [190, 338, "a30c937"],
+    [388, 330, "a15257a"],
+    [338, 401, "Beth-zur"],
+    [124, 438, "Gaza"]
+   ],
+   "check": [
+    [406, 147, "Sychar"],
+    [398, 160, "Mount Gerizim"]
+   ]
+  }
+ ]
+}

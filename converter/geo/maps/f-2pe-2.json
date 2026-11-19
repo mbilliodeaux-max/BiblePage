@@ -1,0 +1,24 @@
+{
+ "src": "images/2pe/61363eb121e287.jpeg",
+ "figure": "f-2pe-2",
+ "title": "Sodom and Gomorrah",
+ "status": "ok",
+ "note": "Whole picture is the map. Bab edh-Dhra and Numeira are used as the archaeological sites themselves (Wikidata), whose positions are certain even though their identification with Sodom and Gomorrah is not. Ai (3 px from Bethel) left out.",
+ "panels": [
+  {
+   "box": [0, 0, 300, 344],
+   "snap": "dark",
+   "pts": [
+    [105, 27, "a64f355"],
+    [103, 65, "a15257a"],
+    [76, 128, "Hebron"],
+    [19, 199, "ad2f6c2"],
+    [173, 196, "Q797529"],
+    [171, 229, "Q7069629"]
+   ],
+   "check": [
+    [155, 259, "Zoar"]
+   ]
+  }
+ ]
+}

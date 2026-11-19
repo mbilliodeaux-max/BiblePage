@@ -1,0 +1,33 @@
+{
+ "src": "images/jos/c3ab201abc5a45.jpeg",
+ "figure": "f-jos-1",
+ "title": "Conquest of Canaan",
+ "status": "ok",
+ "note": "Whole picture is one map; legend box sits inside it. The map draws Medeba about 6 km south of its true place (check only).",
+ "panels": [
+  {
+   "box": [0, 0, 600, 521],
+   "snap": "dark",
+   "pts": [
+    [335, 70, "adf74d4"],
+    [149, 133, "ae023a9"],
+    [75, 296, "ac87d4c"],
+    [212, 114, "a7b2e63"],
+    [390, 214, "a231f80"],
+    [271, 349, "a85151a"],
+    [188, 332, "a3cc590"],
+    [560, 178, "ae067b5"],
+    [506, 359, "a0d784a"],
+    [431, 116, "adc31c7"],
+    [316, 248, "a15257a"]
+   ],
+   "check": [
+    [209, 211, "aed6538"],
+    [118, 258, "a30c937"],
+    [336, 135, "aa4680a"],
+    [509, 295, "af4f21c"],
+    [525, 372, "ae46f2e"]
+   ]
+  }
+ ]
+}

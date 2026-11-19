@@ -1,0 +1,21 @@
+{
+ "src": "images/dan/8c8aa442c18e34.jpeg",
+ "figure": "f-dan-7",
+ "title": "The Geography of Daniel 11",
+ "status": "ok",
+ "note": "Whole picture is the map (no frame). Only 5 point places (Tyre, Damascus, Jerusalem, Ashur, Babylon), all used for the fit, so there are no check places.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 356],
+   "snap": "dark",
+   "pts": [
+    [227, 124, "a160272"],
+    [251, 119, "Damascus"],
+    [228, 162, "a15257a"],
+    [389, 60, "a874951"],
+    [421, 128, "a217d18"]
+   ],
+   "check": []
+  }
+ ]
+}

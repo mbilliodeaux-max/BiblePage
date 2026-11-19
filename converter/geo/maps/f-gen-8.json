@@ -1,0 +1,25 @@
+{
+ "src": "images/gen/6ede4158c4f8c8.jpeg",
+ "figure": "f-gen-8",
+ "title": "Abram’s Travels",
+ "status": "ok",
+ "note": "Whole picture is one map; only 8 town dots. Emar, Tuttul (Tell Bi'a) and Mari from Wikidata.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 348],
+   "snap": "dark",
+   "pts": [
+    [250, 27.5, "a6d9af3"],
+    [221, 70, "Q1196243"],
+    [315.5, 122.5, "Q244762"],
+    [162.5, 174, "Damascus"],
+    [128, 244, "aad7e4e"],
+    [505.5, 257, "Ur"]
+   ],
+   "check": [
+    [250, 69, "Q657272"],
+    [129.5, 226, "Shechem"]
+   ]
+  }
+ ]
+}

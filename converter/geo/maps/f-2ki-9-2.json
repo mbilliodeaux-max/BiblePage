@@ -1,0 +1,31 @@
+{
+ "src": "images/2ki/724e5a899e5f37.jpeg",
+ "figure": "f-2ki-9",
+ "title": "Assyrian Campaigns Against Israel and Judah",
+ "status": "ok",
+ "note": "Whole picture is one map. All towns lie between the Levant coast and the Tigris; Egypt, the Aegean, Media and the Persian Gulf are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 495],
+   "snap": "dark",
+   "pts": [
+    [444, 64, "Carchemish"],
+    [475, 63, "mc9a69d"],
+    [600, 73, "Nineveh"],
+    [601, 106, "a874951"],
+    [647, 210, "a217d18"],
+    [406, 127, "aa9c505"],
+    [397, 188, "Damascus"],
+    [364, 197, "a160272"],
+    [366, 252, "a15257a"],
+    [343, 262, "aa8edd2"]
+   ],
+   "check": [
+    [603, 82, "Calah"],
+    [369, 187, "Sidon"],
+    [361, 210, "Acco"],
+    [364, 233, "a041bb3"]
+   ]
+  }
+ ]
+}

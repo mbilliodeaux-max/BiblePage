@@ -1,0 +1,25 @@
+{
+ "src": "images/ezk/4b0237e6410797.jpeg",
+ "figure": "f-ezk-6",
+ "title": "Nations and Cities Under Judgment in Ezekiel",
+ "status": "ok",
+ "note": "Whole picture is one map; only 8 town dots, so 6 fit and 2 check.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 433],
+   "snap": "dark",
+   "pts": [
+    [397, 115, "Nineveh"],
+    [430, 210, "a217d18"],
+    [150, 287, "Memphis"],
+    [185, 387, "Thebes"],
+    [236, 238, "a15257a"],
+    [241, 186, "Sidon"]
+   ],
+   "check": [
+    [235, 201, "a160272"],
+    [251, 234, "ae067b5"]
+   ]
+  }
+ ]
+}

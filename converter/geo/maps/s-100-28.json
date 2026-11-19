@@ -1,0 +1,34 @@
+{
+ "src": "images/s100/7e9d37deb9ace4.jpeg",
+ "figure": "s-100-28",
+ "title": "Map 4: Land of the Twelve Tribes",
+ "status": "ok",
+ "note": "Inner map frame.",
+ "panels": [
+  {
+   "box": [37, 39, 769, 1191],
+   "snap": "red",
+   "pts": [
+    [728, 153, "Damascus"],
+    [389, 218, "Tyre"],
+    [525, 233, "Dan"],
+    [352, 343, "Akko"],
+    [296, 443, "Dor"],
+    [647, 468, "aaa6f7a"],
+    [232, 641, "Joppa"],
+    [374, 748, "Jerusalem"],
+    [582, 699, "ae067b5"],
+    [138, 832, "Gaza"],
+    [256, 929, "Beersheba"],
+    [545, 863, "ae46f2e"]
+   ],
+   "check": [
+    [494, 311, "a6f33c5"],
+    [372, 461, "Megiddo"],
+    [467, 496, "Beth Shan"],
+    [414, 861, "En Gedi"],
+    [327, 831, "Hebron"]
+   ]
+  }
+ ]
+}

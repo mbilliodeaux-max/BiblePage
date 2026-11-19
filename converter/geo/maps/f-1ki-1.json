@@ -1,0 +1,33 @@
+{
+ "src": "images/1ki/c74ed29970d5e5.jpeg",
+ "figure": "f-1ki-1",
+ "title": "Israel Under David and Solomon",
+ "status": "ok",
+ "note": "Whole picture is one map. Ezion Geber taken as Tell el-Kheleifeh (Wikidata) at the head of the gulf; it is the only point in the south.",
+ "panels": [
+  {
+   "box": [0, 0, 613, 1000],
+   "snap": "dark",
+   "pts": [
+    [262, 302, "Sidon"],
+    [395, 308, "Damascus"],
+    [238, 347, "a160272"],
+    [290, 389, "a6f33c5"],
+    [349, 431, "Ashtaroth"],
+    [237, 463, "Megiddo"],
+    [243, 598, "a15257a"],
+    [135, 644, "aa8edd2"],
+    [187, 688, "ad2f6c2"],
+    [312, 699, "Kir-hareseth"],
+    [208, 963, "Q2402239"]
+   ],
+   "check": [
+    [396, 191, "Lebo-hamath"],
+    [250, 526, "Shechem"],
+    [251, 551, "Shiloh"],
+    [145, 618, "Ashkelon"],
+    [199, 584, "Gezer"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "src": "images/s100/360199a2f17967.jpeg",
+ "figure": "s-100-34",
+ "title": "Map 5: Kingdom of David and Solomon",
+ "status": "ok",
+ "note": "Inner map frame.",
+ "panels": [
+  {
+   "box": [44, 46, 842, 1281],
+   "snap": "red",
+   "pts": [
+    [566, 97, "Aleppo"],
+    [721, 376, "Tadmor"],
+    [500, 275, "aa9c505"],
+    [395, 337, "Arvad"],
+    [358, 448, "a9a2541"],
+    [450, 555, "Damascus"],
+    [233, 795, "Joppa"],
+    [194, 885, "Gaza"],
+    [398, 813, "ae067b5"],
+    [186, 1025, "Kadesh-barnea"]
+   ],
+   "check": [
+    [320, 548, "Sidon"],
+    [294, 707, "Megiddo"],
+    [299, 841, "a15257a"],
+    [245, 928, "ad2f6c2"],
+    [346, 635, "a6f33c5"]
+   ]
+  }
+ ]
+}

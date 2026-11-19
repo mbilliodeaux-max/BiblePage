@@ -1,0 +1,27 @@
+{
+ "src": "images/rev/6db03bf651c954.jpeg",
+ "figure": "f-rev-1",
+ "title": "The Seven Churches of Revelation",
+ "status": "ok",
+ "note": "Whole picture is one map; legend box sits inside it. Filled dots are the seven churches, open circles other towns; no snap because snapping pulls open circles onto their ring, so positions were read from 4x crops. Nothing marked in the west (Crete, Cyclades), so that is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 447, 600],
+   "pts": [
+    [223.2, 103.8, "a75d2c1"],
+    [266, 129, "a94b661"],
+    [212, 177, "a2e65fb"],
+    [316.5, 179, "a1c7cc1"],
+    [223.2, 222.8, "a5feb15"],
+    [358.5, 231.2, "a83fb1e"],
+    [220.5, 268.5, "a55027d"],
+    [293, 377.8, "m0d73da"],
+    [385, 385.5, "ade301b"]
+   ],
+   "check": [
+    [279.2, 168, "aab4a5f"],
+    [233.2, 343.5, "ab793ce"]
+   ]
+  }
+ ]
+}

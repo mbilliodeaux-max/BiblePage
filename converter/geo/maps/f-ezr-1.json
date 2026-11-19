@@ -1,0 +1,33 @@
+{
+ "src": "images/ezr/947f5cbd9e2e1c.jpeg",
+ "figure": "f-ezr-1",
+ "title": "Persian Provinces",
+ "status": "ok",
+ "note": "Whole picture is one map. Persepolis, Pasargadae, Farah and Bactra (Balkh) from Wikidata; Issus not used (site uncertain). The Farah dot is about 190 km from modern Farah, so it is a check place only; east of Persepolis only Bactra controls the fit, so expect errors there of 50 km or more.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 631],
+   "snap": "dark",
+   "pts": [
+    [152, 230, "Sardis"],
+    [271, 263, "Tarsus"],
+    [207, 413, "Memphis"],
+    [267, 379, "aa8edd2"],
+    [299, 336, "Damascus"],
+    [415, 270, "Nineveh"],
+    [442, 344, "a217d18"],
+    [511, 294, "Ecbatana"],
+    [596, 389.5, "Q129072"],
+    [819, 193, "Q182159"]
+   ],
+   "check": [
+    [774, 338, "Q593156"],
+    [511, 351, "Susa"],
+    [279, 341, "a160272"],
+    [279, 372, "a15257a"],
+    [600.5, 382, "Q230025"],
+    [286, 322, "mf937a6"]
+   ]
+  }
+ ]
+}

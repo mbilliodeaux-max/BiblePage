@@ -1,0 +1,31 @@
+{
+ "src": "images/2ki/030b444e9736fd.jpeg",
+ "figure": "f-2ki-9",
+ "title": "Assyrian Campaigns Against Israel and Judah",
+ "status": "ok",
+ "note": "Picture 3 of 3: Sennacherib's campaign in Philistia and Judah. Whole picture is the map (no frame); the south half has no towns, so the fit is extrapolated there.",
+ "panels": [
+  {
+   "box": [0, 0, 564, 600],
+   "snap": "dark",
+   "pts": [
+    [334, 63, "a7b2e63"],
+    [252, 90, "Joppa"],
+    [476, 159, "a64f355"],
+    [328, 195, "Gezer"],
+    [210, 253, "Ashdod"],
+    [155, 302, "Ashkelon"],
+    [122, 388, "aa8edd2"],
+    [302, 352, "Lachish"],
+    [414, 371, "a85151a"],
+    [474, 242, "a15257a"]
+   ],
+   "check": [
+    [299, 242, "Ekron"],
+    [335, 281, "Azekah"],
+    [459, 273, "a112427"],
+    [410, 341, "Beth-zur"]
+   ]
+  }
+ ]
+}

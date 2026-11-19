@@ -1,0 +1,29 @@
+{
+ "src": "images/1ti/802fbba4059cb2.jpeg",
+ "figure": "f-1ti-1",
+ "title": "Location of Ephesus",
+ "status": "ok",
+ "note": "Whole picture is one map. No town dots in the north-east (Black Sea, Bithynia) or the south, so those are extrapolated. The map draws Ephesus about 15-20 km north of its true place (too close to Smyrna), so it is a check, not a fit place.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 475],
+   "snap": "dark",
+   "pts": [
+    [236, 106, "a49e1d0"],
+    [164, 131, "afa9d8e"],
+    [334, 199, "a91c509"],
+    [353, 243, "a33910d"],
+    [393, 241, "a75d2c1"],
+    [385, 291, "a2e65fb"],
+    [391, 355, "a55027d"],
+    [147, 317, "a6f437a"]
+   ],
+   "check": [
+    [390, 313, "a5feb15"],
+    [247, 111, "a6a7150"],
+    [343, 215, "a0a2ca7"],
+    [299, 146, "a68750d"]
+   ]
+  }
+ ]
+}

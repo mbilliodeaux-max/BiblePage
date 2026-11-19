@@ -1,0 +1,25 @@
+{
+ "src": "images/2ki/ee27a3da8bf028.jpeg",
+ "figure": "f-2ki-1",
+ "title": "Elijah’s Ministry",
+ "status": "ok",
+ "note": "Whole picture, no frame. Only six well-identified town dots, all in the hill country; the coast and the Jordan valley are extrapolated. Gilgal (disputed) and the Mt. Carmel triangle (ridge, exact point unclear) are checks only.",
+ "panels": [
+  {
+   "box": [0, 0, 513, 600],
+   "snap": "dark",
+   "pts": [
+    [284, 138, "ae0bf4a"],
+    [227, 278, "Samaria"],
+    [264, 303, "Shechem"],
+    [247, 441, "a64f355"],
+    [327, 473, "a231f80"],
+    [241, 510, "Jerusalem"]
+   ],
+   "check": [
+    [163, 52, "Mount Carmel"],
+    [335, 465, "ab94aea"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "src": "images/2pe/704a5e4bb133df.jpeg",
+ "figure": "f-2pe-1",
+ "title": "Locations in 2 Peter",
+ "status": "ok",
+ "note": "Whole picture, no frame. Only five town dots, all used for the fit (none left for a check); they are well spread, and the leave-one-out error is the only accuracy estimate.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 357],
+   "snap": "dark",
+   "pts": [
+    [63, 52, "Rome"],
+    [336, 124, "Troas"],
+    [284, 170, "Athens"],
+    [357, 168, "Ephesus"],
+    [529, 329, "Jerusalem"]
+   ],
+   "check": []
+  }
+ ]
+}

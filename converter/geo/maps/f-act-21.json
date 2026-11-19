@@ -1,0 +1,102 @@
+{
+ "src": "images/act/1553a114021dd0.jpeg",
+ "figure": "f-act-21",
+ "title": "Paul’s Journey to Rome",
+ "status": "ok",
+ "note": "Main map covers the whole picture. The Crete inset (166,548-596,763) has only 4 point places, too few to fit, so it is a no-coordinates box; the Libyan coast, Egypt and Sinai below the main dots are extrapolated.",
+ "panels": [
+  {
+   "box": [
+    0,
+    0,
+    1000,
+    788
+   ],
+   "snap": "dark",
+   "pts": [
+    [
+     67,
+     44,
+     "Rome"
+    ],
+    [
+     115,
+     101,
+     "Puteoli"
+    ],
+    [
+     144,
+     263,
+     "Syracuse"
+    ],
+    [
+     567,
+     175,
+     "Adramyttium"
+    ],
+    [
+     580,
+     305,
+     "Cnidus"
+    ],
+    [
+     671,
+     326,
+     "Myra"
+    ],
+    [
+     891,
+     326,
+     "ae41ab4"
+    ],
+    [
+     867,
+     441,
+     "Sidon"
+    ],
+    [
+     862,
+     518,
+     "a15257a"
+    ],
+    [
+     670,
+     544,
+     "Alexandria"
+    ]
+   ],
+   "check": [
+    [
+     166,
+     228,
+     "Rhegium"
+    ],
+    [
+     850,
+     488,
+     "Caesarea"
+    ],
+    [
+     85,
+     69,
+     "Forum of Appius"
+    ],
+    [
+     883,
+     329,
+     "Seleucia"
+    ]
+   ]
+  },
+  {
+   "box": [
+    166,
+    548,
+    596,
+    763
+   ],
+   "none": true,
+   "label": "inset: Crete"
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "src": "images/jos/fd9d36a1c179d4.jpeg",
+ "figure": "f-jos-4",
+ "title": "Northern Campaign",
+ "status": "ok",
+ "note": "Whole picture. Waters of Merom, Madon and Akshaph left out (marked uncertain or disputed).",
+ "panels": [
+  {
+   "box": [0, 0, 441, 600],
+   "snap": "dark",
+   "pts": [
+    [229, 35, "Sidon"],
+    [167, 154, "Tyre"],
+    [330, 165, "Dan"],
+    [298, 260, "a6f33c5"],
+    [131, 307, "Acco"],
+    [70, 430, "Dor"],
+    [163, 447, "Megiddo"],
+    [235, 405, "Mount Tabor"],
+    [291, 326, "Chinnereth"]
+   ],
+   "check": [
+    [291, 216, "a321cb8"],
+    [131, 416, "a5c92e1"],
+    [175, 393, "Shimron"]
+   ]
+  }
+ ]
+}

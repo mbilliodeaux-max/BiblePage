@@ -1,0 +1,35 @@
+{
+ "src": "images/2sa/94a0d4f62e44d7.jpeg",
+ "figure": "f-2sa-8",
+ "title": "Map of Limits of Israel Proper in Which Joab",
+ "status": "ok",
+ "note": "Single map filling the picture. Jazer, Ijon and Geshur (uncertain sites) not used.",
+ "panels": [
+  {
+   "box": [0, 0, 646, 1000],
+   "snap": "dark",
+   "pts": [
+    [377, 27.75, "Sidon"],
+    [328.5, 120.75, "Tyre"],
+    [456, 129.75, "Dan"],
+    [299.25, 240.75, "Akko"],
+    [416.86, 379.43, "Beth Shan"],
+    [553.7, 382.9, "a2fe63c"],
+    [200.6, 528.6, "Joppa"],
+    [534.9, 565.4, "ae067b5"],
+    [336.5, 621.6, "a15257a"],
+    [120.75, 713.1, "aa8edd2"],
+    [506.9, 722.9, "ae46f2e"],
+    [224.8, 798, "ad2f6c2"]
+   ],
+   "check": [
+    [430.75, 203.75, "a6f33c5"],
+    [324.86, 350.86, "Megiddo"],
+    [352, 476.86, "Shechem"],
+    [249.5, 591.7, "Gezer"],
+    [300.6, 703.7, "a85151a"],
+    [251.7, 513.4, "a7b2e63"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "src": "images/2ki/ceecba8b7f56e0.jpeg",
+ "figure": "f-2ki-12",
+ "title": "Nebuchadnezzar’s Campaigns Against Judah",
+ "status": "ok",
+ "note": "Picture 2 of 3. Whole picture is the map. Aphek is Aphek 2 (Tell Ras el Ain). No towns south of Hebron, so the lower half (Negev, legend area) is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 472, 1000],
+   "snap": "dark",
+   "pts": [
+    [231, 253, "Megiddo"],
+    [231, 334, "a041bb3"],
+    [253, 352, "Shechem"],
+    [174, 381, "a7b2e63"],
+    [240, 468, "a15257a"],
+    [174, 486, "Azekah"],
+    [143, 524, "Lachish"],
+    [212, 533, "Hebron"],
+    [400, 421, "ae067b5"]
+   ],
+   "check": [
+    [412, 277, "Ramoth-gilead"],
+    [254, 393, "Shiloh"],
+    [231, 450, "aede336"]
+   ]
+  }
+ ]
+}

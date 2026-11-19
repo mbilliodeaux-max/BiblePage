@@ -1,0 +1,29 @@
+{
+ "src": "images/jon/d709727df76ff4.jpeg",
+ "figure": "f-jon-1",
+ "title": "Jonah and Nineveh",
+ "status": "ok",
+ "note": "Whole picture is one map.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 555],
+   "snap": "dark",
+   "pts": [
+    [401, 203, "Nineveh"],
+    [404, 246, "a874951"],
+    [111, 326, "mf937a6"],
+    [137, 357, "Damascus"],
+    [65, 450, "aa8edd2"],
+    [457, 373, "a217d18"],
+    [536, 455, "Eridu"],
+    [92, 368, "a160272"]
+   ],
+   "check": [
+    [92, 415, "a041bb3"],
+    [76, 426, "Joppa"],
+    [490, 389, "Nippur"],
+    [71, 439, "Ashdod"]
+   ]
+  }
+ ]
+}

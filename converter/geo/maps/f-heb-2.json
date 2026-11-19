@@ -1,0 +1,24 @@
+{
+ "src": "images/heb/585e12b4a44c2e.jpeg",
+ "figure": "f-heb-2",
+ "title": "Jerusalem and Sinai",
+ "status": "ok",
+ "note": "Single map filling the picture. Only seven point places, all in the east and centre: the west (Egypt, Goshen) is extrapolated. Mt. Sinai is the Jebel Musa summit the map names. Ezion Geber (gazetteer: Jezirat Faraun island, disputed) is a check only; Oboth? not used.",
+ "panels": [
+  {
+   "box": [0, 0, 522, 600],
+   "snap": "dark",
+   "pts": [
+    [383.5, 168.25, "a15257a"],
+    [431.25, 166.25, "abf2fc1"],
+    [421.75, 173.5, "aefaa2d"],
+    [319, 274, "Kadesh-barnea"],
+    [405.75, 276, "Punon"],
+    [281.25, 472.5, "abfba2a"]
+   ],
+   "check": [
+    [365.75, 375.25, "Ezion-geber"]
+   ]
+  }
+ ]
+}

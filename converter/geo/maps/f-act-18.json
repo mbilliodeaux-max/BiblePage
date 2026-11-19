@@ -1,0 +1,35 @@
+{
+ "src": "images/act/eefb5a6978659e.jpeg",
+ "figure": "f-act-18",
+ "title": "Paul’s Third Missionary Journey",
+ "status": "ok",
+ "note": "Whole picture is one map. No towns in the south-west (Crete, Libya); that part is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 721],
+   "snap": "dark",
+   "pts": [
+    [232, 81, "Philippi"],
+    [127, 110, "Berea"],
+    [325, 170, "Troas"],
+    [197, 285, "Athens"],
+    [155, 287, "Corinth"],
+    [384, 287, "Ephesus"],
+    [580, 268, "a6c704a"],
+    [558, 357, "Attalia"],
+    [427, 391, "m0d73da"],
+    [777, 354, "Tarsus"],
+    [842, 401, "ae41ab4"],
+    [801, 683, "a15257a"]
+   ],
+   "check": [
+    [163, 105, "Thessalonica"],
+    [381, 325, "Miletus"],
+    [653, 298, "Iconium"],
+    [488, 397, "Patara"],
+    [785, 636, "Caesarea"],
+    [797, 586, "a160272"]
+   ]
+  }
+ ]
+}

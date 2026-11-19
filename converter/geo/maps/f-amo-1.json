@@ -1,0 +1,25 @@
+{
+ "src": "images/amo/628ff20daea6b6.jpeg",
+ "figure": "f-amo-1",
+ "title": "Locations in Amos",
+ "status": "ok",
+ "note": "Whole picture is one map. Town dots lie in a narrow north-south band, so the west (Cyprus, open sea) is extrapolated. Kalneh and Lo Debar left out: identifications disputed (the map's Kalneh does not sit at Tell Tayinat).",
+ "panels": [
+  {
+   "box": [0, 0, 482, 600],
+   "snap": "dark",
+   "pts": [
+    [336, 98, "mfa2f6d"],
+    [376, 132, "aa9c505"],
+    [339, 319, "a69c1d4"],
+    [235, 344, "a160272"],
+    [235, 455, "a041bb3"],
+    [239, 511, "a15257a"],
+    [201, 518, "a18873f"]
+   ],
+   "check": [
+    [340, 240, "a5eb047"]
+   ]
+  }
+ ]
+}

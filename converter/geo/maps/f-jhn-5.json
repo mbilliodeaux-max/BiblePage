@@ -1,0 +1,35 @@
+{
+ "src": "images/jhn/e83e39cd2d84b2.jpeg",
+ "figure": "f-jhn-5",
+ "title": "Jesus in Judea and Samaria",
+ "status": "ok",
+ "note": "Single map filling the picture. Jericho is Herodian Jericho (Tell el Alayiq). Salim, Aenon, Emmaus, Sychar, Bethsaida and Bethany beyond the Jordan (uncertain sites) not used.",
+ "panels": [
+  {
+   "box": [0, 0, 876, 1000],
+   "snap": "dark",
+   "pts": [
+    [590.25, 13.25, "Caesarea Philippi"],
+    [326.5, 178.25, "Ptolemais"],
+    [522, 250.25, "ac9adc9"],
+    [249.25, 392.25, "a58735e"],
+    [513.25, 392.25, "Beth-shan"],
+    [185.75, 618.25, "Joppa"],
+    [65, 898, "aa8edd2"],
+    [391.25, 759.25, "a15257a"],
+    [482.75, 725.75, "aaf03fa"],
+    [566.75, 869.5, "Q1549278"],
+    [375.25, 506, "a041bb3"]
+   ],
+   "check": [
+    [536, 198.25, "Capernaum"],
+    [420.75, 290.5, "Nazareth"],
+    [263.25, 595, "a7b2e63"],
+    [380, 789.5, "a112427"],
+    [491.25, 779.75, "Qumran"],
+    [412.5, 265.5, "Q1132798"],
+    [553.5, 417, "Q167993"]
+   ]
+  }
+ ]
+}

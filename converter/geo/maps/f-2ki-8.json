@@ -1,0 +1,35 @@
+{
+ "src": "images/2ki/6c85b271f8e619.jpeg",
+ "figure": "f-2ki-8",
+ "title": "Exile of the Northern Kingdom",
+ "status": "ok",
+ "note": "Whole picture is one map.",
+ "panels": [
+  {
+   "box": [0, 0, 959, 1000],
+   "snap": "dark",
+   "pts": [
+    [370, 303, "Carchemish"],
+    [413, 301, "a6d9af3"],
+    [584, 319, "Nineveh"],
+    [821, 381, "Ecbatana"],
+    [818, 516, "Susa"],
+    [729, 586, "Ur"],
+    [652, 498, "a217d18"],
+    [83, 666, "Memphis"],
+    [259, 567, "a15257a"],
+    [305, 479, "Damascus"],
+    [336, 336, "Aleppo"],
+    [286, 411, "Arvad"]
+   ],
+   "check": [
+    [386, 422, "ad797fe"],
+    [685, 521, "Nippur"],
+    [601, 328, "Calah"],
+    [274, 446, "mf937a6"],
+    [257, 541, "a041bb3"],
+    [616, 134, "Q72303"]
+   ]
+  }
+ ]
+}

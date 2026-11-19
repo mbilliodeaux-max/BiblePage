@@ -1,0 +1,24 @@
+{
+ "src": "images/s100/5dc0f424e72368.jpeg",
+ "figure": "s-100-64",
+ "title": "Map 10: Jerusalem in the Time of Jesus",
+ "status": "ok",
+ "note": "City plan; landmarks that exist today (Garden Tomb, Holy Sepulchre at 'Golgotha (traditional)', Gethsemane, Pool of Bethesda, Gihon Spring, Pool of Siloam, Tower of Phasael = Tower of David citadel). Marked at the centre of each symbol; the Phasael diamond and the citadel coordinates are not exactly the same point. The plan is schematic: landmarks are 30-80 m from where a true-scale fit puts them, with no common shift, so expect about 0.1 km error.",
+ "panels": [
+  {
+   "box": [39, 43, 770, 1190],
+   "pts": [
+    [314, 162, "Q1494672"],
+    [210, 484, "a631d35"],
+    [757, 371, "Gethsemane"],
+    [594, 293, "Bethesda"],
+    [620, 815, "a2a303c"],
+    [512, 1036, "Siloam"],
+    [112, 652, "Q1177765"]
+   ],
+   "check": [
+    [175, 942, "Q318972"]
+   ]
+  }
+ ]
+}

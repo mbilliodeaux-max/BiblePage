@@ -1,0 +1,33 @@
+{
+ "src": "images/2ki/1a4a1a21833f82.jpeg",
+ "figure": "f-2ki-12",
+ "title": "Nebuchadnezzar’s Campaigns Against Judah",
+ "status": "ok",
+ "note": "Picture 1 of 3. Whole picture, no frame.",
+ "panels": [
+  {
+   "box": [0, 0, 1200, 1110],
+   "snap": "dark",
+   "pts": [
+    [253, 217, "Tarsus"],
+    [402, 215, "Carchemish"],
+    [649, 228, "Nineveh"],
+    [870, 293, "Ecbatana"],
+    [913, 459, "Susa"],
+    [726, 449, "a217d18"],
+    [808, 532, "a6cf75c"],
+    [326, 415, "Damascus"],
+    [238, 532, "Gaza"],
+    [81, 628, "Memphis"],
+    [156, 859, "Thebes"]
+   ],
+   "check": [
+    [362, 255, "Aleppo"],
+    [340, 316, "aa9c505"],
+    [420, 350, "ad797fe"],
+    [275, 515, "Jerusalem"],
+    [654, 281, "Asshur"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "src": "images/s100/2989d101f72e45.jpeg",
+ "figure": "s-100-52",
+ "title": "Map 8: Assyrian and Babylonian Empires",
+ "status": "ok",
+ "note": "Two maps of the same area stacked: 8a (top, Assyrian) and 8b (bottom, Neo-Babylonian), each its own panel. In 8b the Nineveh and Dur Sharrukin dots overlap, so Nineveh is not used there; Arbela (Erbil), Behistun from Wikidata. Arrapkha is drawn about 50 km from Kirkuk and is not used; Ashur and Behistun are also drawn 20-45 km off.",
+ "panels": [
+  {
+   "label": "Map 8a: Assyrian Empire",
+   "box": [45, 42, 765, 598],
+   "snap": "red",
+   "pts": [
+    [374, 222, "Carchemish"],
+    [404, 221, "a6d9af3"],
+    [528, 233, "Nineveh"],
+    [698, 279, "Ecbatana"],
+    [696, 375, "Susa"],
+    [632, 426, "Ur"],
+    [579, 370, "a217d18"],
+    [168, 483, "Memphis"],
+    [293, 412, "a15257a"],
+    [327, 349, "Damascus"],
+    [349, 247, "Aleppo"],
+    [313, 301, "Arvad"]
+   ],
+   "check": [
+    [384, 308, "ad797fe"],
+    [602, 385, "Nippur"],
+    [540, 241, "Calah"],
+    [292, 394, "a041bb3"],
+    [530, 262, "a874951"],
+    [529, 223, "Q253208"]
+   ]
+  },
+  {
+   "label": "Map 8b: Neo-Babylonian Empire",
+   "box": [45, 605, 765, 1172],
+   "snap": "red",
+   "pts": [
+    [374, 791, "Carchemish"],
+    [405, 790, "a6d9af3"],
+    [556, 802, "Q132754"],
+    [698, 850, "Ecbatana"],
+    [696, 944, "Susa"],
+    [632, 995, "Ur"],
+    [578, 936, "a217d18"],
+    [168, 1056, "Memphis"],
+    [294, 981, "a15257a"],
+    [327, 918, "Damascus"],
+    [349, 816, "Aleppo"],
+    [314, 870, "Arvad"]
+   ],
+   "check": [
+    [385, 876, "ad797fe"],
+    [600, 948, "Nippur"],
+    [292, 929, "a160272"],
+    [530, 831, "a874951"],
+    [336, 857, "aa9c505"],
+    [672, 882, "Q180012"]
+   ]
+  }
+ ]
+}
+

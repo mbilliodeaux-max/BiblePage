@@ -1,0 +1,25 @@
+{
+ "src": "images/mal/c5bd0ab099906f.jpeg",
+ "figure": "f-mal-1",
+ "title": "Setting of Malachi",
+ "status": "ok",
+ "note": "Whole picture is the map. Ezion Geber's dot is at the head of the gulf, so it uses Tell el-Kheleifeh (Wikidata) rather than the gazetteer's Jezirat Faraun island; Petra from Wikidata. Sela left out (identification disputed). The east half (Arabian desert) has no towns and is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 640, 1000],
+   "snap": "dark",
+   "pts": [
+    [208, 23, "a15257a"],
+    [77, 221, "ad2f6c2"],
+    [330, 410, "a871210"],
+    [296, 455, "Punon"],
+    [271, 562, "Q5788"],
+    [116, 867, "Q2402239"]
+   ],
+   "check": [
+    [209, 389, "a5947d7"],
+    [282, 309, "Zoar"]
+   ]
+  }
+ ]
+}

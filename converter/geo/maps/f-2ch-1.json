@@ -1,0 +1,31 @@
+{
+ "src": "images/2ch/7794a8f6461898.jpeg",
+ "figure": "f-2ch-1",
+ "title": "Province of Yehud (judah)",
+ "status": "ok",
+ "note": "Whole picture. Ziklag left out (identification disputed).",
+ "panels": [
+  {
+   "box": [0, 0, 590, 600],
+   "snap": "dark",
+   "pts": [
+    [298, 124, "Shiloh"],
+    [152, 210, "Gezer"],
+    [358, 213, "a231f80"],
+    [123, 252, "Ekron"],
+    [127, 348, "Lachish"],
+    [221, 371, "a85151a"],
+    [337, 401, "Engedi"],
+    [503, 279, "Medeba"],
+    [117, 501, "ad2f6c2"],
+    [465, 529, "Kir-hareseth"]
+   ],
+   "check": [
+    [273, 252, "Jerusalem"],
+    [277, 184, "a64f355"],
+    [226, 335, "Beth-zur"],
+    [183, 329, "Keilah"]
+   ]
+  }
+ ]
+}

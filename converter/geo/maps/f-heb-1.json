@@ -1,0 +1,25 @@
+{
+ "src": "images/heb/065d1b8f2db4e5.jpeg",
+ "figure": "f-heb-1",
+ "title": "Locations in Hebrews",
+ "status": "ok",
+ "note": "Whole picture is one map; only 8 town dots, so 6 fit and 2 check. Byzantium from Wikidata.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 281],
+   "snap": "dark",
+   "pts": [
+    [289, 49, "Rome"],
+    [486, 71, "Q23725"],
+    [384, 102, "Nicopolis"],
+    [252, 127, "Carthage"],
+    [496, 221, "Alexandria"],
+    [562, 212, "a15257a"]
+   ],
+   "check": [
+    [453, 90, "Troas"],
+    [463, 127.5, "Ephesus"]
+   ]
+  }
+ ]
+}

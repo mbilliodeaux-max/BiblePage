@@ -1,0 +1,42 @@
+{
+ "src": "images/act/37abb4b659d7ac.jpeg",
+ "figure": "f-act-17",
+ "title": "Paul’s Second Missionary Journey",
+ "status": "ok",
+ "note": "Single map filling the picture. Byzantium, Nicaea and Prusa from Wikidata. Derbe (disputed site) not used; Corinth is the left of the two overlapping Corinth/Cenchreae dots.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 763],
+   "snap": "dark",
+   "pts": [
+    [159.75, 130, "Thessalonica"],
+    [231.25, 104.75, "Philippi"],
+    [479, 105.5, "Q23725"],
+    [516, 150, "Q739037"],
+    [327.5, 195.75, "Troas"],
+    [193.75, 314.75, "Athens"],
+    [151.5, 314, "Corinth"],
+    [386.75, 317.75, "Ephesus"],
+    [433, 423.25, "a8c207b"],
+    [590.75, 297.25, "a6c704a"],
+    [664, 327, "Iconium"],
+    [791.5, 385, "Tarsus"],
+    [859.5, 434, "ae41ab4"],
+    [877.25, 612.75, "Damascus"],
+    [817.5, 722.5, "a15257a"],
+    [798.75, 676.25, "a58735e"]
+   ],
+   "check": [
+    [123, 134.25, "Berea"],
+    [209.25, 117, "Amphipolis"],
+    [242, 109.75, "Neapolis"],
+    [415, 255.25, "Thyatira"],
+    [656.5, 347.25, "Lystra"],
+    [849.25, 437, "Seleucia"],
+    [479.25, 165, "Q40738"],
+    [823.5, 606.75, "Sidon"],
+    [814.25, 624.75, "Tyre"]
+   ]
+  }
+ ]
+}

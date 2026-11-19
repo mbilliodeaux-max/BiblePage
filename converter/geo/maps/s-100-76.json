@@ -1,0 +1,31 @@
+{
+ "src": "images/s100/f7a6675c13e2d4.jpeg",
+ "figure": "s-100-76",
+ "title": "Map 12: Apostles’ Early Travel",
+ "status": "ok",
+ "note": "Inner map frame.",
+ "panels": [
+  {
+   "box": [49, 48, 799, 1223],
+   "snap": "red",
+   "pts": [
+    [327, 80, "Tarsus"],
+    [677, 208, "Aleppo"],
+    [518, 222, "ae41ab4"],
+    [174, 407, "Salamis"],
+    [604, 407, "aa9c505"],
+    [445, 601, "a9a2541"],
+    [545, 718, "Damascus"],
+    [328, 905, "Caesarea"],
+    [381, 1036, "Jerusalem"],
+    [261, 1086, "Gaza"]
+   ],
+   "check": [
+    [488, 230, "Seleucia"],
+    [403, 712, "Sidon"],
+    [356, 826, "Ptolemais"],
+    [306, 985, "Joppa"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "src": "images/num/ed5764eb3cb02f.jpeg",
+ "figure": "f-num-1",
+ "title": "Exodus and Wilderness Wanderings",
+ "status": "ok",
+ "note": "Whole picture, no frame. Jebel Musa and Jebel al-Lawz triangles (Wikidata summit) used for the south; Mt. Hor, Hazeroth and Ezion Geber left out (disputed sites).",
+ "panels": [
+  {
+   "box": [0, 0, 676, 1000],
+   "snap": "dark",
+   "pts": [
+    [618, 301, "ae067b5"],
+    [478, 324, "Ashdod"],
+    [457, 359, "Gaza"],
+    [493, 392, "Beersheba"],
+    [189, 427, "Zoan"],
+    [100, 536, "acd9137"],
+    [89, 571, "Memphis"],
+    [569, 472, "Punon"],
+    [400, 747, "abfba2a"],
+    [551, 725, "Q4115817"]
+   ],
+   "check": [
+    [565, 313, "a231f80"],
+    [527, 355, "Hebron"],
+    [607, 319, "Heshbon"],
+    [451, 470, "Kadesh-barnea"]
+   ]
+  }
+ ]
+}

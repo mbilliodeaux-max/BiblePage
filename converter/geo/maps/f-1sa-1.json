@@ -1,0 +1,28 @@
+{
+ "src": "images/1sa/4a7558d213137c.jpeg",
+ "figure": "f-1sa-1",
+ "title": "The Books of Samuel",
+ "status": "ok",
+ "note": "Whole picture, no frame. All dots lie west of the Jordan; the east side is extrapolated. Battle bursts (Shunem, Mikmash, Jabesh Gilead) not used.",
+ "panels": [
+  {
+   "box": [0, 0, 665, 1000],
+   "snap": "dark",
+   "pts": [
+    [393, 197, "En-dor"],
+    [310, 222, "Megiddo"],
+    [205, 459, "a7b2e63"],
+    [353, 480, "Shiloh"],
+    [245, 580, "a1c600b"],
+    [172, 616, "Ekron"],
+    [172, 651, "a18873f"],
+    [15, 748, "Gaza"]
+   ],
+   "check": [
+    [363, 235, "ae0bf4a"],
+    [205, 651, "Azekah"],
+    [327, 594, "ac24f5f"]
+   ]
+  }
+ ]
+}

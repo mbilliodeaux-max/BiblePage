@@ -1,0 +1,97 @@
+{
+ "src": "images/s100/78905976e71d6f.jpeg",
+ "figure": "s-100-10",
+ "title": "Map 1: World of the Patriarchs",
+ "status": "ok",
+ "note": "Inner map frame. Wide map: the conic fit is about 20 km out, the cartographer's own dot placement is part of that.",
+ "panels": [
+  {
+   "box": [
+    40,
+    32,
+    1137,
+    742
+   ],
+   "snap": "red",
+   "pts": [
+    [
+     213,
+     141,
+     "Q22647"
+    ],
+    [
+     524,
+     162,
+     "Hattusa"
+    ],
+    [
+     85,
+     244,
+     "Q132564"
+    ],
+    [
+     167,
+     355,
+     "Q173527"
+    ],
+    [
+     688,
+     277,
+     "a6d9af3"
+    ],
+    [
+     842,
+     289,
+     "Nineveh"
+    ],
+    [
+     901,
+     453,
+     "a217d18"
+    ],
+    [
+     974,
+     533,
+     "Ur"
+    ],
+    [
+     397,
+     602,
+     "Memphis"
+    ],
+    [
+     590,
+     437,
+     "Damascus"
+    ],
+    [
+     760,
+     377,
+     "Q244762"
+    ]
+   ],
+   "check": [
+    [
+     566,
+     340,
+     "Q191369"
+    ],
+    [
+     664,
+     383,
+     "Tadmor"
+    ],
+    [
+     892,
+     333,
+     "Q584605"
+    ],
+    [
+     618,
+     309,
+     "Aleppo"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "src": "images/2ki/35d50564d1d23d.jpeg",
+ "figure": "f-2ki-6",
+ "title": "Jeroboam’s Expansion",
+ "status": "ok",
+ "note": "Whole picture. Sela left out (identification uncertain).",
+ "panels": [
+  {
+   "box": [0, 0, 626, 1000],
+   "snap": "dark",
+   "pts": [
+    [511, 50, "Lebo-hamath"],
+    [508, 189, "Damascus"],
+    [402, 238, "Dan"],
+    [348, 373, "ae0bf4a"],
+    [327, 427, "a041bb3"],
+    [331, 522, "Jerusalem"],
+    [269, 563, "Lachish"],
+    [268, 626, "ad2f6c2"],
+    [388, 726, "a871210"],
+    [292, 946, "Elath"]
+   ],
+   "check": [
+    [334, 494, "a64f355"],
+    [290, 529, "a3b5b53"]
+   ]
+  }
+ ]
+}

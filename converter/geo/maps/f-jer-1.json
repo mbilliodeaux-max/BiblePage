@@ -1,0 +1,28 @@
+{
+ "src": "images/jer/7179b9fa2ac77d.jpeg",
+ "figure": "f-jer-1",
+ "title": "Towns and Cities Associated With Jeremiah and the Neo-Babylonian Empire",
+ "status": "ok",
+ "note": "Whole picture is one map. Carchemish has only a battle star (no town dot), so it is not used.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 294],
+   "snap": "dark",
+   "pts": [
+    [287, 50, "a6d9af3"],
+    [415, 59, "a70fd5d"],
+    [184, 157, "a9a2541"],
+    [172, 246, "a15257a"],
+    [464, 200, "a217d18"],
+    [585, 209, "a033b84"],
+    [228, 76, "m4badb5"],
+    [415, 94, "a874951"]
+   ],
+   "check": [
+    [203, 181, "a69c1d4"],
+    [455, 180, "mf1495c"],
+    [212, 144, "ab2bde8"]
+   ]
+  }
+ ]
+}

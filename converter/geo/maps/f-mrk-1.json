@@ -1,0 +1,33 @@
+{
+ "src": "images/mrk/ca1ff88d6c7fd5.jpeg",
+ "figure": "f-mrk-1",
+ "title": "Holy Land in the Time of Jesus",
+ "status": "ok",
+ "note": "Whole picture is the map (legend box top left lies over the sea). Three symbol styles: black dots, orange Decapolis rings, purple fortress squares; no snap, because dark snap jumped from the orange rings to their label letters. Black-dot positions were taken from a dark-snap run. Philadelphia uses Rabbah 1 (Amman); Masada from the gazetteer's modern place.",
+ "panels": [
+  {
+   "box": [0, 0, 685, 1000],
+   "pts": [
+    [297.3, 196.8, "Sidon"],
+    [531, 207, "Damascus"],
+    [378.2, 285.6, "Caesarea Philippi"],
+    [228.6, 385.4, "Ptolemais"],
+    [178.5, 510.9, "Caesarea"],
+    [140.6, 641.5, "Joppa"],
+    [70.0, 805.3, "Gaza"],
+    [162.7, 881.7, "ad2f6c2"],
+    [292, 852, "Masada"],
+    [440, 671, "ae067b5"],
+    [429, 574, "Gerasa"],
+    [315.3, 699.7, "a231f80"]
+   ],
+   "check": [
+    [338.6, 424.6, "ac9adc9"],
+    [251.4, 575.5, "a041bb3"],
+    [228.6, 799.4, "Hebron"],
+    [407.3, 740.2, "Medeba"],
+    [254.6, 741.6, "a112427"]
+   ]
+  }
+ ]
+}

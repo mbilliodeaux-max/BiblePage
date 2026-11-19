@@ -1,0 +1,25 @@
+{
+ "src": "images/oba/41761f082f2aca.jpeg",
+ "figure": "f-oba-1",
+ "title": "Locations in Obadiah",
+ "status": "ok",
+ "note": "Whole picture. Few dots: Zarephath in the north, Jerusalem and Beersheba, a cluster in Edom, Ezion Geber in the south. Petra from Wikidata. Teman left out (identification uncertain). Ezion Geber is a check only: the gazetteer puts it on Jezirat Faraun while the map dot is at the head of the gulf; its 13.6 km error suggests the south end (below Petra) may be out by up to about 10 km.",
+ "panels": [
+  {
+   "box": [0, 0, 812, 1000],
+   "snap": "dark",
+   "pts": [
+    [373, 29, "Zarephath"],
+    [360, 392, "Jerusalem"],
+    [286, 505, "ad2f6c2"],
+    [430, 612, "a871210"],
+    [409, 641, "Punon"],
+    [395, 700, "Q5788"]
+   ],
+   "check": [
+    [421, 604, "af8ce6a"],
+    [309, 869, "Ezion-geber"]
+   ]
+  }
+ ]
+}

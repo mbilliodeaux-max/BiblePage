@@ -1,0 +1,38 @@
+{
+ "src": "images/s100/02613ea00624f7.jpeg",
+ "figure": "s-100-58",
+ "title": "Map 9: Holy Land in the Time of Jesus",
+ "status": "ok",
+ "note": "Inner map frame. Philadelphia is Amman (gazetteer Rabbah 1). Gerasa and Philadelphia are orange Decapolis circles, the rest red dots. Dion, Salim and the two Bethanys beyond the Jordan (uncertain sites) not used.",
+ "panels": [
+  {
+   "box": [45, 50, 769, 1186],
+   "snap": "red",
+   "pts": [
+    [343, 248.5, "Sidon"],
+    [300.5, 329.5, "Tyre"],
+    [576.5, 259.5, "Damascus"],
+    [423.5, 336.5, "Caesarea Philippi"],
+    [224.75, 558, "a58735e"],
+    [187, 691, "Joppa"],
+    [117.25, 853.25, "aa8edd2"],
+    [209, 929, "ad2f6c2"],
+    [307, 772.25, "a15257a"],
+    [360.25, 748.5, "aaf03fa"],
+    [484, 720.25, "ae067b5"],
+    [474.5, 623.75, "Gerasa"],
+    [452, 788.5, "Medeba"],
+    [384, 474.75, "ac9adc9"]
+   ],
+   "check": [
+    [275, 436, "Ptolemais"],
+    [297, 624.5, "a041bb3"],
+    [274.25, 847.25, "a85151a"],
+    [135.25, 806.75, "Ashkelon"],
+    [324, 498.75, "Nazareth"],
+    [63, 911.75, "Q172343"],
+    [408.25, 831, "Q1549278"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "src": "images/jol/5381df15807300.jpeg",
+ "figure": "f-jol-1",
+ "title": "Locations in Joel",
+ "status": "ok",
+ "note": "Whole picture is the map. 8 town dots; Anatolia, the Caspian and the Persian Gulf corners have no towns and are extrapolated. Sidon is left out: its dot is drawn about 37 km (9 px) north of where the other dots put it, a cartographer's placement, not a misread.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 451],
+   "snap": "dark",
+   "pts": [
+    [386, 124, "Nineveh"],
+    [421, 226, "a217d18"],
+    [124, 307, "Memphis"],
+    [161, 413, "Thebes"],
+    [214, 216, "Tyre"],
+    [215, 256, "a15257a"]
+   ],
+   "check": [
+    [231, 251, "ae067b5"]
+   ]
+  }
+ ]
+}

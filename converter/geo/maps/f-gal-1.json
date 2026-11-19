@@ -1,0 +1,29 @@
+{
+ "src": "images/gal/8fa860b404deab.jpeg",
+ "figure": "f-gal-1",
+ "title": "Galatia",
+ "status": "ok",
+ "note": "Whole picture. Ancyra from Wikidata (Ankara). Derbe left out (identification disputed).",
+ "panels": [
+  {
+   "box": [0, 0, 300, 317],
+   "snap": "dark",
+   "pts": [
+    [162, 55, "Q3640"],
+    [21, 121, "Ephesus"],
+    [120, 112, "a6c704a"],
+    [155, 127, "Iconium"],
+    [217, 154, "Tarsus"],
+    [109, 157, "Attalia"],
+    [250, 178, "ae41ab4"],
+    [193, 211, "Salamis"],
+    [154, 224, "Paphos"]
+   ],
+   "check": [
+    [20, 137, "Miletus"],
+    [113, 153, "Perga"],
+    [152, 136, "Lystra"]
+   ]
+  }
+ ]
+}

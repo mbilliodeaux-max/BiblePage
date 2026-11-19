@@ -1,0 +1,32 @@
+{
+ "src": "images/jdg/7ca65a2211073e.jpeg",
+ "figure": "f-jdg-2",
+ "title": "Five Cities of the Philistines",
+ "status": "ok",
+ "note": "Whole picture is one map. Philistine cities are ringed dots.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 445],
+   "snap": "dark",
+   "pts": [
+    [337, 36, "a7b2e63"],
+    [271, 56, "Joppa"],
+    [452, 181, "a15257a"],
+    [238, 188, "Ashdod"],
+    [193, 229, "Ashkelon"],
+    [167, 297, "aa8edd2"],
+    [311, 267, "Lachish"],
+    [402, 284, "a85151a"],
+    [302, 407, "ad2f6c2"],
+    [334, 138, "Gezer"]
+   ],
+   "check": [
+    [330, 93, "Lod"],
+    [309, 178, "Ekron"],
+    [309, 210, "a18873f"],
+    [353, 186, "a3b5b53"],
+    [338, 211, "Azekah"]
+   ]
+  }
+ ]
+}

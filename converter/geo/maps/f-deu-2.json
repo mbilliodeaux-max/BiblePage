@@ -1,0 +1,25 @@
+{
+ "src": "images/deu/4e7405825bc812.jpeg",
+ "figure": "f-deu-2",
+ "title": "The Battles of Sihon and Og",
+ "status": "ok",
+ "note": "Whole picture is the map. Only 7 point places, all east of Jerusalem in a narrow band; the west (coast) and south are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 455],
+   "snap": "dark",
+   "pts": [
+    [418, 105, "aaa6f7a"],
+    [401, 212, "ae067b5"],
+    [334, 225, "a231f80"],
+    [305, 238, "a15257a"],
+    [379, 282, "a0d784a"],
+    [384, 233, "Heshbon"]
+   ],
+   "check": [
+    [373, 240, "aefaa2d"],
+    [367, 230, "Abel-shittim"]
+   ]
+  }
+ ]
+}

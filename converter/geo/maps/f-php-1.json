@@ -1,0 +1,28 @@
+{
+ "src": "images/php/3b89b957e70222.jpeg",
+ "figure": "f-php-1",
+ "title": "Philippi and Surrounding Areas",
+ "status": "ok",
+ "note": "Whole picture is one map. No towns along the north (Black Sea coast) or the south edge; those parts are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 382],
+   "snap": "dark",
+   "pts": [
+    [137, 66, "Philippi"],
+    [217, 138, "Troas"],
+    [71, 237, "Corinth"],
+    [106, 237, "Athens"],
+    [262, 232, "Ephesus"],
+    [338, 248, "Laodicea"],
+    [437, 222, "a6c704a"],
+    [498, 248, "Iconium"]
+   ],
+   "check": [
+    [353, 256, "Colossae"],
+    [492, 264, "Lystra"],
+    [539, 277, "Derbe"]
+   ]
+  }
+ ]
+}

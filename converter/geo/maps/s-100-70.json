@@ -1,0 +1,32 @@
+{
+ "src": "images/s100/21000c9ed8e9ba.jpeg",
+ "figure": "s-100-70",
+ "title": "Map 11: Jesus\u2019 Ministry",
+ "status": "ok",
+ "note": "Inner map frame. The Mt. Hermon triangle is drawn about 8 km south of the gazetteer summit; it is only a check place.",
+ "panels": [
+  {
+   "box": [52, 49, 817, 1250],
+   "snap": "red",
+   "pts": [
+    [302, 167, "a160272"],
+    [523, 181, "Caesarea Philippi"],
+    [247, 353, "Ptolemais"],
+    [166, 579, "Caesarea"],
+    [469, 373, "Capernaum"],
+    [515, 497, "Gadara"],
+    [616, 696, "Gerasa"],
+    [412, 920, "a231f80"],
+    [303, 997, "a112427"],
+    [497, 1070, "Q1549278"]
+   ],
+   "check": [
+    [346, 473, "Nazareth"],
+    [453, 431, "ac9adc9"],
+    [315, 963, "a15257a"],
+    [371, 508, "Nain"],
+    [569, 132, "Mount Hermon"]
+   ]
+  }
+ ]
+}

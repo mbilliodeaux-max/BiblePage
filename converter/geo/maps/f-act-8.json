@@ -1,0 +1,24 @@
+{
+ "src": "images/act/1dc59295574269.jpeg",
+ "figure": "f-act-8",
+ "title": "Saul’s Conversion",
+ "status": "ok",
+ "note": "Whole picture is one small map. All town dots lie along the Levant coast and Cilicia, so Cyprus and Egypt are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 300, 293],
+   "snap": "dark",
+   "pts": [
+    [168, 19, "a666ea0"],
+    [205, 45, "ae41ab4"],
+    [213, 140, "a69c1d4"],
+    [180, 146, "a160272"],
+    [172, 173, "a58735e"],
+    [182, 197, "a15257a"]
+   ],
+   "check": [
+    [177, 158, "abc2af0"]
+   ]
+  }
+ ]
+}

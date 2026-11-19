@@ -1,0 +1,23 @@
+{
+ "src": "images/isa/6d0719417aa220.jpeg",
+ "figure": "f-isa-1",
+ "title": "Nations and Cities Mentioned in Isaiah",
+ "status": "ok",
+ "note": "Whole picture is the map. Only 6 town dots (four of them close together in the Levant, plus Nineveh and Babylon), so 5 fit places and 1 check; the west (Aegean, Egypt) and the corners are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 349],
+   "snap": "dark",
+   "pts": [
+    [429, 79, "Nineveh"],
+    [465, 183, "a217d18"],
+    [275, 168, "Damascus"],
+    [248, 174, "Tyre"],
+    [250, 215, "a15257a"]
+   ],
+   "check": [
+    [249, 202, "a041bb3"]
+   ]
+  }
+ ]
+}

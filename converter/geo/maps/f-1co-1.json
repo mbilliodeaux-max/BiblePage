@@ -1,0 +1,27 @@
+{
+ "src": "images/1co/358e77692866cb.jpeg",
+ "figure": "f-1co-1",
+ "title": "Location of Corinth",
+ "status": "ok",
+ "note": "Box covers only the west part of the picture (Italy, Greece, the Aegean, the Aegean coast of Asia Minor). Every town dot is in Italy (Rome) or Greece; a test with coastline points put central and eastern Asia Minor about 50 km off (Sinop, the Gulf of Iskenderun), while Cape Baba on the Aegean coast was 11 km off, so the box stops at x=620. Delphi from Wikidata. Cenchreae (4 px from Corinth) and Apollonia? left out.",
+ "panels": [
+  {
+   "box": [0, 0, 620, 352],
+   "snap": "dark",
+   "pts": [
+    [67, 50, "Rome"],
+    [412, 131, "Berea"],
+    [436, 128, "Thessalonica"],
+    [486, 113, "Philippi"],
+    [418, 228, "Q75459"],
+    [431, 254, "Corinth"],
+    [460, 253, "Athens"],
+    [413, 295, "Sparta"]
+   ],
+   "check": [
+    [470, 120, "Amphipolis"],
+    [493, 115, "Neapolis"]
+   ]
+  }
+ ]
+}

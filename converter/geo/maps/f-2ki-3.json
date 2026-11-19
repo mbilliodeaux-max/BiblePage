@@ -1,0 +1,32 @@
+{
+ "src": "images/2ki/ca9b94fe3821f1.jpeg",
+ "figure": "f-2ki-3",
+ "title": "Israel and Its Neighbors at the Time of Jehu",
+ "status": "ok",
+ "note": "Whole picture is the map. Small black dots.",
+ "panels": [
+  {
+   "box": [0, 0, 468, 600],
+   "snap": "dark",
+   "pts": [
+    [270, 37, "a9a2541"],
+    [372, 155, "Damascus"],
+    [201, 198, "Tyre"],
+    [257, 244, "a6f33c5"],
+    [320, 290, "Ashtaroth"],
+    [199, 324, "Megiddo"],
+    [199, 382, "a041bb3"],
+    [315, 442, "ae067b5"],
+    [204, 471, "a15257a"],
+    [145, 508, "Lachish"]
+   ],
+   "check": [
+    [227, 147, "Sidon"],
+    [269, 204, "Dan"],
+    [214, 393, "Shechem"],
+    [218, 420, "Shiloh"],
+    [156, 505, "Mareshah"]
+   ]
+  }
+ ]
+}

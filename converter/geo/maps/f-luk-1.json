@@ -1,0 +1,25 @@
+{
+ "src": "images/luk/ca173d70b2ef1b.jpeg",
+ "figure": "f-luk-1",
+ "title": "Provinces and Towns Pertinent to the Book of Luke",
+ "status": "ok",
+ "note": "Whole picture is one map. Only eight town dots; Jerusalem and Bethany touch, so they are checks only. Nothing marked east of the Jordan, so the Decapolis and Trachonitis are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 512, 600],
+   "snap": "dark",
+   "pts": [
+    [294, 38, "ab7bf48"],
+    [268, 128, "af2161c"],
+    [212, 175, "af5884f"],
+    [189, 280, "a041bb3"],
+    [187, 415, "a112427"],
+    [114, 535, "ad2f6c2"]
+   ],
+   "check": [
+    [195, 402, "a15257a"],
+    [200, 405, "a4f35bc"]
+   ]
+  }
+ ]
+}

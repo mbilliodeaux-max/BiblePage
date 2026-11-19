@@ -1,0 +1,24 @@
+{
+ "src": "images/eph/af5a51718edcec.jpeg",
+ "figure": "f-eph-1",
+ "title": "Ephesus and Nearby Cities",
+ "status": "ok",
+ "note": "Whole picture is one map; only 7 town dots, so 5 fit and 2 check.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 269],
+   "snap": "dark",
+   "pts": [
+    [277, 58, "Smyrna"],
+    [374, 44, "Sardis"],
+    [292, 125, "Ephesus"],
+    [489, 138, "Laodicea"],
+    [288, 191, "Miletus"]
+   ],
+   "check": [
+    [429, 61, "Philadelphia"],
+    [509, 150, "Colossae"]
+   ]
+  }
+ ]
+}

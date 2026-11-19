@@ -1,0 +1,28 @@
+{
+ "src": "images/rut/119530ddf46b5e.jpeg",
+ "figure": "f-rut-1",
+ "title": "The Book of Ruth",
+ "status": "ok",
+ "note": "Whole picture is the map (no frame).",
+ "panels": [
+  {
+   "box": [0, 0, 570, 600],
+   "snap": "dark",
+   "pts": [
+    [493, 68, "ae067b5"],
+    [293, 111, "a231f80"],
+    [203, 151, "a15257a"],
+    [152, 270, "a85151a"],
+    [41, 411, "ad2f6c2"],
+    [431, 282, "a0d784a"],
+    [453, 298, "ae46f2e"],
+    [405, 438, "Kir-hareseth"]
+   ],
+   "check": [
+    [194, 180, "a112427"],
+    [449, 137, "abf2fc1"],
+    [416, 158, "aefaa2d"]
+   ]
+  }
+ ]
+}

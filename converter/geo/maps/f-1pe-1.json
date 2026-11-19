@@ -1,0 +1,31 @@
+{
+ "src": "images/1pe/e2f2504bd47212.jpeg",
+ "figure": "f-1pe-1",
+ "title": "Provinces Addressed in 1 Peter",
+ "status": "ok",
+ "note": "Whole picture is the map (no frame). Byzantium, Sinope, Ancyra (Ankara), Caesarea Mazaca (Kayseri), Nicomedia and Amisus (Samsun) are Wikidata places.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 523],
+   "snap": "dark",
+   "pts": [
+    [163, 87, "Q23725"],
+    [467, 23, "Q599416"],
+    [73, 215, "Pergamum"],
+    [73, 292, "Ephesus"],
+    [355, 162, "Q3640"],
+    [341, 300, "Iconium"],
+    [256, 354, "Perga"],
+    [464, 356, "Tarsus"],
+    [530, 403, "ae41ab4"],
+    [486, 240, "Q48338"]
+   ],
+   "check": [
+    [208, 107, "Q209349"],
+    [66, 263, "Smyrna"],
+    [161, 297, "Laodicea"],
+    [527, 67, "Q160450"]
+   ]
+  }
+ ]
+}

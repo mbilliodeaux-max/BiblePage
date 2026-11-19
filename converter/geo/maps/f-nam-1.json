@@ -1,0 +1,25 @@
+{
+ "src": "images/nam/43a6010cec079a.jpeg",
+ "figure": "f-nam-1",
+ "title": "Locations in Nahum",
+ "status": "ok",
+ "note": "Whole picture is one map; only 8 towns, none in the south-west or along the bottom edge.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 386],
+   "snap": "dark",
+   "pts": [
+    [255, 70, "Carchemish"],
+    [429, 78, "Nineveh"],
+    [432, 115, "a874951"],
+    [482, 234, "a217d18"],
+    [202, 210, "Damascus"],
+    [166, 280, "a15257a"]
+   ],
+   "check": [
+    [290, 68, "mc9a69d"],
+    [228, 96, "Aleppo"]
+   ]
+  }
+ ]
+}

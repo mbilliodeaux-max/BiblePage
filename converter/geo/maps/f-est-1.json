@@ -1,0 +1,32 @@
+{
+ "src": "images/est/d402359cc6e6f6.jpeg",
+ "figure": "f-est-1",
+ "title": "Persian Empire",
+ "status": "ok",
+ "note": "Whole picture is one map. Persepolis is the easternmost town; the Caspian and far-east edge are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 418],
+   "snap": "dark",
+   "pts": [
+    [102, 124, "Athens"],
+    [163, 116, "Sardis"],
+    [321, 142, "mc9a69d"],
+    [380, 150, "Nineveh"],
+    [460, 169, "Ecbatana"],
+    [460, 216, "Susa"],
+    [432, 242, "a6cf75c"],
+    [269, 234, "a15257a"],
+    [208, 268, "Memphis"],
+    [238, 364, "Syene"],
+    [531, 248, "Q129072"]
+   ],
+   "check": [
+    [404, 211, "a217d18"],
+    [284, 205, "Damascus"],
+    [295, 155, "Aleppo"],
+    [273, 193, "mf937a6"]
+   ]
+  }
+ ]
+}

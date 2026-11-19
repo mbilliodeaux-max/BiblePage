@@ -1,0 +1,25 @@
+{
+ "src": "images/sng/47f6f793277fd9.jpeg",
+ "figure": "f-sng-1",
+ "title": "Places Mentioned in Song of Songs",
+ "status": "ok",
+ "note": "Whole picture, no frame. Mt. Hermon triangle used as a fit place; Mt. Carmel triangle (ridge, exact point unclear) is a check only.",
+ "panels": [
+  {
+   "box": [0, 0, 429, 600],
+   "snap": "dark",
+   "pts": [
+    [385, 45, "Damascus"],
+    [292, 76, "Mount Hermon"],
+    [198, 250, "Shunem"],
+    [198, 323, "Tirzah"],
+    [179, 443, "Jerusalem"],
+    [292, 436, "Heshbon"],
+    [209, 513, "En Gedi"]
+   ],
+   "check": [
+    [138, 223, "Mount Carmel"]
+   ]
+  }
+ ]
+}

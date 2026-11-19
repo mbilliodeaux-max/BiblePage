@@ -1,0 +1,26 @@
+{
+ "src": "images/exo/f583e4aa7e0a03.jpeg",
+ "figure": "f-exo-10",
+ "title": "Possible Route of the Exodus",
+ "status": "ok",
+ "note": "Whole picture is the map (no frame). Jebel Musa triangle used; the route stations (Pithom, Sukkoth, Migdol, Marah, Elim) are uncertain and left out. Giza checked against the pyramid complex. Zoan (Tanis) is drawn about 13 km east of where it is, so it is only a check place. Jebel Musa is the only point in the south half, so the fit there rests on it alone.",
+ "panels": [
+  {
+   "box": [0, 0, 436, 600],
+   "snap": "dark",
+   "pts": [
+    [416, 52, "Ashdod"],
+    [396, 83, "aa8edd2"],
+    [391, 188, "Kadesh-barnea"],
+    [120, 163, "Rameses"],
+    [59, 250, "acd9137"],
+    [48, 283, "Memphis"],
+    [343, 448, "Q377485"]
+   ],
+   "check": [
+    [42, 267, "Q12508"],
+    [143, 147, "Zoan"]
+   ]
+  }
+ ]
+}

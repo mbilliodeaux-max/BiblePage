@@ -1,0 +1,26 @@
+{
+ "src": "images/mat/9059628b10d96b.jpeg",
+ "figure": "f-mat-3",
+ "title": "Jesus’ Birth and Early Life",
+ "status": "ok",
+ "note": "Whole picture is one map; only 9 town dots, so 7 fit and 2 check.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 736],
+   "snap": "dark",
+   "pts": [
+    [814, 101, "Capernaum"],
+    [751, 153, "Nazareth"],
+    [662, 322, "a7b2e63"],
+    [736, 414, "a15257a"],
+    [705, 481, "a85151a"],
+    [554, 491, "aa8edd2"],
+    [84, 614, "Pelusium"]
+   ],
+   "check": [
+    [747, 292, "Shechem"],
+    [727, 429, "a112427"]
+   ]
+  }
+ ]
+}

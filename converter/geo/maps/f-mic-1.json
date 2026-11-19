@@ -1,0 +1,26 @@
+{
+ "src": "images/mic/38d2e725b9382d.jpeg",
+ "figure": "f-mic-1",
+ "title": "Region of the Shephelah",
+ "status": "ok",
+ "note": "Single map filling the picture. Few well-identified places: only Lachish, Mareshah, Bethlehem and Hebron are certain; Adullam and Abel Shittim (Tall el Hammam) are the usual identifications. Points are concentrated in the south-west and centre; the north-west corner and the far south have none.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 341],
+   "snap": "dark",
+   "pts": [
+    [341.5, 147, "a112427"],
+    [284.75, 238.75, "a85151a"],
+    [179.5, 219.5, "Lachish"],
+    [197.5, 208.5, "Mareshah"],
+    [242.75, 174.5, "Adullam"],
+    [529.25, 84.25, "Abel-shittim"]
+   ],
+   "check": [
+    [433.75, 60.5, "ab94aea"],
+    [220.5, 187.25, "a2270e4"],
+    [200.25, 194.75, "Moresheth-gath"]
+   ]
+  }
+ ]
+}

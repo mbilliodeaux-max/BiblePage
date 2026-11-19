@@ -1,0 +1,27 @@
+{
+ "src": "images/zec/3ea9b0b85777e3.jpeg",
+ "figure": "f-zec-1",
+ "title": "The Persian Empire in the Time of Darius I",
+ "status": "ok",
+ "note": "Whole picture, no frame. Only ten town dots, none east of Persepolis: the eastern third of the map (Parthia to India) is extrapolated and less reliable.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 620],
+   "snap": "dark",
+   "pts": [
+    [88, 250, "Athens"],
+    [150, 248, "Ephesus"],
+    [308, 345, "Damascus"],
+    [217, 425, "Memphis"],
+    [247, 508, "Thebes"],
+    [522, 305, "Ecbatana"],
+    [458, 358, "a217d18"],
+    [607, 398, "Q129072"]
+   ],
+   "check": [
+    [291, 383, "Jerusalem"],
+    [523, 361, "Susa"]
+   ]
+  }
+ ]
+}

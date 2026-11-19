@@ -1,0 +1,25 @@
+{
+ "src": "images/2sa/e5252bbc34d94b.jpeg",
+ "figure": "f-2sa-1",
+ "title": "David Among the Philistines",
+ "status": "ok",
+ "note": "Whole picture is the map. Aphek is Aphek 2 (Tell Ras el Ain). Jabesh Gilead and Ziklag are disputed sites, used only as checks; the east third of the map has no towns and is extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 523],
+   "snap": "dark",
+   "pts": [
+    [280, 106, "Shunem"],
+    [293, 99, "En-dor"],
+    [320, 135, "Beth-shan"],
+    [190, 239, "a7b2e63"],
+    [174, 343, "a18873f"],
+    [256, 323, "a15257a"]
+   ],
+   "check": [
+    [358, 158, "Jabesh-gilead"],
+    [135, 423, "Ziklag"]
+   ]
+  }
+ ]
+}

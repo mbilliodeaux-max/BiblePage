@@ -1,0 +1,33 @@
+{
+ "src": "images/jdg/9d314572812d69.jpeg",
+ "figure": "f-jdg-1",
+ "title": "The Judges of Israel",
+ "status": "ok",
+ "note": "Single map filling the picture. Disputed sites (Kedesh of Barak, Ophrah, Debir, Mizpah, Gilead, Zaphon, Peniel) not used.",
+ "panels": [
+  {
+   "box": [0, 0, 722, 1000],
+   "snap": "dark",
+   "pts": [
+    [448, 29.75, "a6f33c5"],
+    [315.25, 215.75, "Megiddo"],
+    [387.25, 171, "Mount Tabor"],
+    [349, 374.25, "Shechem"],
+    [579.75, 486, "ae067b5"],
+    [466.5, 382, "a0905b5"],
+    [406, 523.25, "a231f80"],
+    [329, 556.75, "a15257a"],
+    [283.75, 662, "a85151a"],
+    [57.5, 672.25, "aa8edd2"],
+    [83, 606.5, "Ashkelon"],
+    [188.75, 781.75, "ad2f6c2"]
+   ],
+   "check": [
+    [352.25, 438.75, "Shiloh"],
+    [326.5, 240.75, "Taanach"],
+    [334, 495.5, "a64f355"],
+    [320, 582, "a112427"]
+   ]
+  }
+ ]
+}

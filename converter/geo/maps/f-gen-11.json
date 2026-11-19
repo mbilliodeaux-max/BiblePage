@@ -1,0 +1,49 @@
+{
+ "src": "images/gen/313f51cdf4b1a5.jpeg",
+ "figure": "f-gen-11",
+ "title": "Jacob’s Journeys",
+ "status": "ok",
+ "note": "Two maps: the overview (left, whole height) and the Canaan detail (upper right) are separate panels. The beige lower-right area is filler, outside both boxes. Peniel and Mahanaim (disputed sites) not used.",
+ "panels": [
+  {
+   "label": "overview: Harran to Canaan",
+   "box": [0, 0, 520, 853],
+   "snap": "dark",
+   "pts": [
+    [474.25, 130, "a6d9af3"],
+    [371.75, 131.25, "Carchemish"],
+    [291.75, 211, "Aleppo"],
+    [208.25, 538.25, "Damascus"],
+    [185.75, 645, "aaa6f7a"],
+    [106.5, 692.25, "Shechem"],
+    [101, 742.75, "a15257a"],
+    [61.75, 804.5, "ad2f6c2"]
+   ],
+   "check": [
+    [102.25, 724.5, "a64f355"],
+    [88.25, 770.75, "a85151a"]
+   ]
+  },
+  {
+   "label": "detail: Canaan",
+   "box": [520, 0, 1000, 450],
+   "snap": "dark",
+   "pts": [
+    [787.5, 74.25, "Dothan"],
+    [800.75, 128.5, "Shechem"],
+    [720.75, 157.25, "a7b2e63"],
+    [791, 245.5, "a15257a"],
+    [759, 309, "a85151a"],
+    [616.75, 316.25, "aa8edd2"],
+    [699.25, 385.75, "ad2f6c2"],
+    [874.5, 132.75, "a0905b5"]
+   ],
+   "check": [
+    [790.25, 203.5, "a64f355"],
+    [782.5, 259.75, "a112427"],
+    [646.75, 348.25, "a3f5814"],
+    [761, 299.25, "Mamre"]
+   ]
+  }
+ ]
+}

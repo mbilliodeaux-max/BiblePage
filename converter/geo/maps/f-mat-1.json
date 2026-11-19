@@ -1,0 +1,31 @@
+{
+ "src": "images/mat/4eaa00828f3a2a.jpeg",
+ "figure": "f-mat-1",
+ "title": "Highlights of Jesus’ Ministry",
+ "status": "ok",
+ "note": "Whole picture is one map; legend and callout boxes sit inside it. Sites marked '?' (Bethsaida, Salim, Bethany beyond the Jordan) and disputed ones (Sychar, Emmaus) not used. Jerusalem left out: its dot merges with Bethany's and the Mt. of Olives triangle.",
+ "panels": [
+  {
+   "box": [0, 0, 765, 1200],
+   "snap": "dark",
+   "pts": [
+    [250, 119, "a160272"],
+    [471, 131, "ab7bf48"],
+    [195, 304, "abc2af0"],
+    [415, 324, "af2161c"],
+    [294, 422, "af5884f"],
+    [115, 528, "a58735e"],
+    [563, 645, "ada6b64"],
+    [358, 869, "a231f80"],
+    [250, 944, "a112427"]
+   ],
+   "check": [
+    [400, 380, "ac9adc9"],
+    [318, 457, "aee679c"],
+    [388, 354, "af75e9e"],
+    [462, 446, "afed46a"],
+    [333, 427, "acd63ee"]
+   ]
+  }
+ ]
+}

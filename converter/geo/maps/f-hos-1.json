@@ -1,0 +1,28 @@
+{
+ "src": "images/hos/2bf401a0b5c9ab.jpeg",
+ "figure": "f-hos-1",
+ "title": "Israel in 750 Bc",
+ "status": "ok",
+ "note": "Whole picture, no frame. Religious centres (Dan, Bethel, Jerusalem) are stars.",
+ "panels": [
+  {
+   "box": [0, 0, 829, 1000],
+   "snap": "dark",
+   "pts": [
+    [670, 34, "a5eb047"],
+    [478, 192, "Sidon"],
+    [534, 264, "Dan"],
+    [442, 495, "Samaria"],
+    [590, 571, "ae067b5"],
+    [449, 610, "Jerusalem"],
+    [297, 678, "Gaza"],
+    [370, 740, "Beersheba"]
+   ],
+   "check": [
+    [461, 511, "Shechem"],
+    [452, 578, "a64f355"],
+    [444, 630, "a112427"]
+   ]
+  }
+ ]
+}

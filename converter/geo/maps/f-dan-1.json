@@ -1,0 +1,21 @@
+{
+ "src": "images/dan/31c2053f2289b8.jpeg",
+ "figure": "f-dan-1",
+ "title": "Daniel in Babylon",
+ "status": "ok",
+ "note": "Whole picture is one map with only 5 towns, so all 5 are fit places and there are no check places; the left-out errors are the only validation.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 417],
+   "snap": "dark",
+   "pts": [
+    [197, 75, "Aleppo"],
+    [466, 95, "Ecbatana"],
+    [389, 178, "a217d18"],
+    [489, 184, "Susa"],
+    [151, 213, "a15257a"]
+   ],
+   "check": []
+  }
+ ]
+}

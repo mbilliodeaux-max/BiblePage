@@ -1,0 +1,33 @@
+{
+ "src": "images/rom/a0c034aa9cd190.jpeg",
+ "figure": "f-rom-1",
+ "title": "Locations Visited by Paul",
+ "status": "ok",
+ "note": "Whole picture, no frame. No dots west of Carthage: Spain is extrapolated. The map's Neapolis is Naples (Italy), checked against Wikidata; Nicomedia and Knossos from Wikidata.",
+ "panels": [
+  {
+   "box": [0, 0, 1000, 442],
+   "snap": "dark",
+   "pts": [
+    [436, 109, "Rome"],
+    [381, 227, "Carthage"],
+    [624, 149, "Thessalonica"],
+    [636, 215, "Athens"],
+    [799, 219, "Iconium"],
+    [868, 257, "ae41ab4"],
+    [596, 336, "Cyrene"],
+    [752, 371, "Alexandria"],
+    [853, 359, "Jerusalem"],
+    [752, 147, "Q209349"]
+   ],
+   "check": [
+    [703, 216, "Ephesus"],
+    [844, 240, "Tarsus"],
+    [874, 319, "Damascus"],
+    [649, 143, "Philippi"],
+    [660, 278, "Q173527"],
+    [466, 135, "Q2634"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "src": "images/s100/0f54f1ca0f4e5c.jpeg",
+ "figure": "s-100-46",
+ "title": "Map 7: Prophets in Israel and Judah",
+ "status": "ok",
+ "note": "Inner map frame. No town dots south of Kir Hareseth, so the Edom part of the map is extrapolated. Ramoth-gilead kept as a check: the map dot is about 13 km from Tall er Rumeith.",
+ "panels": [
+  {
+   "box": [39, 44, 763, 1180],
+   "snap": "red",
+   "pts": [
+    [403, 251, "Sidon"],
+    [583, 273, "Damascus"],
+    [365, 312, "Tyre"],
+    [452, 320, "Dan"],
+    [258, 590, "Joppa"],
+    [261, 774, "ad2f6c2"],
+    [432, 800, "Kir-hareseth"],
+    [382, 468, "Shunem"],
+    [350, 687, "Tekoa"]
+   ],
+   "check": [
+    [487, 506, "a2fe63c"],
+    [347, 545, "a041bb3"],
+    [363, 595, "Shiloh"],
+    [356, 513, "Dothan"],
+    [389, 270, "Zarephath"],
+    [320, 768, "a4cea2a"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "src": "images/s100/f85b9c8c462a85.jpeg",
+ "figure": "s-100-16",
+ "title": "Map 2: Holy Land and Sinai",
+ "status": "ok",
+ "note": "Inner map frame. South of Beersheba only Mt. Sinai (Jebel Musa) and Ezion Geber are point places.",
+ "panels": [
+  {
+   "box": [29, 46, 900, 1203],
+   "snap": "red",
+   "pts": [
+    [660, 190, "Damascus"],
+    [508, 229, "a160272"],
+    [570, 232, "Dan"],
+    [494, 286, "Acco"],
+    [554, 308, "ac9adc9"],
+    [610, 438, "Q3805"],
+    [512, 470, "a15257a"],
+    [408, 515, "aa8edd2"],
+    [460, 555, "ad2f6c2"],
+    [337, 993, "Q377485"]
+   ],
+   "check": [
+    [520, 400, "Shechem"],
+    [542, 456, "a231f80"],
+    [494, 511, "a85151a"],
+    [535, 520, "Engedi"],
+    [480, 826, "Q2402239"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "src": "images/s019/ddad4112e085f9.jpeg",
+ "figure": "s-019-f1",
+ "title": "Locations in the Pentateuch",
+ "status": "ok",
+ "note": "Picture 1 of 5. All town dots are east of the Mediterranean, so clicks in the Aegean and Egypt are extrapolated. The Jerusalem and Hebron dots overlap, so neither is used.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 448],
+   "snap": "dark",
+   "pts": [
+    [332, 133, "a6d9af3"],
+    [415.5, 139.5, "Nineveh"],
+    [370, 190.5, "Q244762"],
+    [278.5, 218.5, "Damascus"],
+    [249.5, 272.5, "ad2f6c2"],
+    [482, 268, "Ur"]
+   ],
+   "check": [
+    [447.5, 232.5, "a217d18"]
+   ]
+  }
+ ]
+}

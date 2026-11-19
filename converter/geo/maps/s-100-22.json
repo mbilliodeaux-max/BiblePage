@@ -1,0 +1,32 @@
+{
+ "src": "images/s100/8a9bd92f566571.jpeg",
+ "figure": "s-100-22",
+ "title": "Map 3: Exodus and Conquest of Canaan",
+ "status": "ok",
+ "note": "Inner map frame. Mt. Sinai is the traditional Jebel Musa triangle. Ezion Geber left out: the dot is at Aqaba but the gazetteer gives Jezirat Faraun.",
+ "panels": [
+  {
+   "box": [46, 40, 748, 1141],
+   "snap": "red",
+   "pts": [
+    [610, 253, "a321cb8"],
+    [581, 372, "Shechem"],
+    [575, 429, "a15257a"],
+    [636, 465, "a0d784a"],
+    [532, 500, "ad2f6c2"],
+    [605, 579, "Punon"],
+    [485, 576, "ac2cef0"],
+    [198, 550, "Q309282"],
+    [122, 677, "Memphis"],
+    [433, 851, "Q377485"]
+   ],
+   "check": [
+    [612, 266, "a6f33c5"],
+    [561, 461, "a85151a"],
+    [134, 646, "acd9137"],
+    [641, 427, "abf2fc1"],
+    [595, 311, "Mount Tabor"]
+   ]
+  }
+ ]
+}

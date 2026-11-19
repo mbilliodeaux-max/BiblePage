@@ -1,0 +1,28 @@
+{
+ "src": "images/2ki/4913e24446766b.jpeg",
+ "figure": "f-2ki-12",
+ "title": "Nebuchadnezzar’s Campaigns Against Judah",
+ "status": "ok",
+ "note": "Picture 3 of 3. Whole picture is one map; legend box sits inside it. Town dots only cover the hill country of Judah and Samaria, so clicks far out (coast, Galilee, Edom) are extrapolated.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 531],
+   "snap": "dark",
+   "pts": [
+    [421, 186, "a041bb3"],
+    [441, 203, "adf74d4"],
+    [443, 241, "aa4680a"],
+    [366, 230, "a7b2e63"],
+    [475, 290, "a231f80"],
+    [429, 312, "a15257a"],
+    [337, 366, "a3cc590"],
+    [403, 374, "a85151a"],
+    [366, 330, "af2ca0c"]
+   ],
+   "check": [
+    [420, 295, "aede336"],
+    [433, 295, "a75be6f"]
+   ]
+  }
+ ]
+}

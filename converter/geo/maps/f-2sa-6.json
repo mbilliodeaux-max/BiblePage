@@ -1,0 +1,33 @@
+{
+ "src": "images/2sa/57546892850205.jpeg",
+ "figure": "f-2sa-6",
+ "title": "David’s Wars of Expansion",
+ "status": "ok",
+ "note": "Whole picture is one map.",
+ "panels": [
+  {
+   "box": [0, 0, 708, 1000],
+   "snap": "dark",
+   "pts": [
+    [494, 254, "Damascus"],
+    [321, 245, "Sidon"],
+    [291, 305, "a160272"],
+    [271, 384, "Akko"],
+    [288, 454, "Megiddo"],
+    [208, 569, "Joppa"],
+    [155, 689, "aa8edd2"],
+    [223, 744, "ad2f6c2"],
+    [295, 631, "a15257a"],
+    [423, 593, "ae067b5"],
+    [356, 359, "a6f33c5"]
+   ],
+   "check": [
+    [373, 311, "Dan"],
+    [348, 473, "Beth-shan"],
+    [239, 611, "Gezer"],
+    [496, 101, "Lebo-hamath"],
+    [287, 618, "aede336"]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "src": "images/act/298666c27ce371.jpeg",
+ "figure": "f-act-16",
+ "title": "Paul’s First Missionary Journey",
+ "status": "ok",
+ "note": "Whole picture is one map. Issus not used (site uncertain). Caesarea (Mazaca) is Kayseri from Wikidata.",
+ "panels": [
+  {
+   "box": [0, 0, 600, 508],
+   "snap": "dark",
+   "pts": [
+    [106, 101, "a6c704a"],
+    [388, 60, "Q48338"],
+    [199, 139, "Iconium"],
+    [360, 212, "Tarsus"],
+    [75.5, 218.5, "Attalia"],
+    [446, 274, "ae41ab4"],
+    [517, 266, "Aleppo"],
+    [295, 361, "Salamis"],
+    [195, 397, "Paphos"]
+   ],
+   "check": [
+    [85, 210, "Perga"],
+    [189, 164, "Lystra"],
+    [433, 278, "Seleucia"],
+    [262, 184, "Derbe"]
+   ]
+  }
+ ]
+}

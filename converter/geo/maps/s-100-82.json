@@ -1,0 +1,33 @@
+{
+ "src": "images/s100/8b12d561122681.jpeg",
+ "figure": "s-100-82",
+ "title": "Map 13: Paul’s Missionary Journeys",
+ "status": "ok",
+ "note": "Inner map frame. Wide map. No town dots in North Africa, so the south part of the panel is extrapolated.",
+ "panels": [
+  {
+   "box": [34, 31, 1068, 810],
+   "snap": "red",
+   "pts": [
+    [257, 198, "Rome"],
+    [333, 402, "Syracuse"],
+    [349, 360, "Rhegium"],
+    [606, 378, "Athens"],
+    [565, 415, "Sparta"],
+    [686, 307, "Troas"],
+    [721, 381, "Ephesus"],
+    [889, 387, "Iconium"],
+    [1041, 446, "Aleppo"],
+    [982, 624, "a15257a"],
+    [887, 510, "Paphos"]
+   ],
+   "check": [
+    [306, 245, "Puteoli"],
+    [967, 421, "Tarsus"],
+    [1017, 557, "Damascus"],
+    [688, 485, "Salmone"],
+    [809, 452, "Myra"]
+   ]
+  }
+ ]
+}
